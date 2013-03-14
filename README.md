@@ -79,13 +79,42 @@ a *refile hook* to take care of that problem.
 
 ## Dependencies
 
+First, this doesn't work on Windows.  I've tested it on Fedora
+(currently on F17).  It will likely work on CentOS, RHEL, Ubuntu, and
+many other flavors of UNIX.
+
 This repo depends on these parts:
 
- * nmh 1.5
- * MH-E 8.5
- * mailfilter 2.x
+ * [nmh](http://www.nongnu.org/nmh/) 1.5 :: this is usually provided by the operating system
+ * [MH-E](http://mh-e.sourceforge.net/) 8.5 :: the Emacs interface to MH/nmh
+ * [mailfilter](https://github.com/franzinc/mailfilter) 2.x :: the mail filter that sits on top of MH/nmh
+ * [Allegro Common Lisp](http://www.franz.com) :: because *mailfilter*
+   is written in Common Lisp, you need a Common Lisp.  Another Common
+   Lisp might do, but I've never tested anything but ACL.  I will be
+   providing binaries for *mailfilter* at some point in the future.
 
 The rest is included in this repo.
 
-TODO:
- * .mh_profile additions for ref-hook, rmmproc, send (add -msgid)
+## Installation
+
+I won't talk about nmh installation.  Get that installed and come back
+here.
+
+### $HOME/.mh_profile
+
+You need these additions to your *.mh_profile*:
+
+    rmmproc: /home/layer/src/emacs/emacs-mail-client/nmh-rmmproc.sh
+    send: -msgid
+    #: so messages in the `important' sequence stay in it after being moved
+    ref-hook: /home/layer/src/emacs/emacs-mail-client/nmh-ref-hook.sh
+
+Of course, use the actual path to your repo.
+
+### $HOME/.mailfilter.cl
+
+To be completed
+
+### GNU Emacs
+
+To be completed
