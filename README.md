@@ -140,9 +140,9 @@ functions which are later used.  This is how I load it from my
     (require 'bytecomp)
     ;; Must load this first because it contains various support functions
     (let* ((el "~layer/src/emacs/emacs-mail-client/dkl-boot.el")
-	   (elc (byte-compile-dest-file el)))
+           (elc (byte-compile-dest-file el)))
       (cond ((file-newer-than-file-p elc el) (load elc))
-	    (t (byte-compile-file el t))))
+            (t (byte-compile-file el t))))
 
 Then, load `dkl-mh-e.el` from this repo.  I do it this way:
 
@@ -162,7 +162,7 @@ keybindings for the entry point functions, and this is what I do:
     (define-key my-ctl-x-map "s" (when *logged-in-as-layer*
                                    (lambda ()
                                      (interactive)
-         			     (mh-rmail 1))))
+                                     (mh-rmail 1))))
 
 `*logged-in-as-layer*` allows me to load the same `.emacs` as root or
 another user, and not define mail-reading key bindings.
