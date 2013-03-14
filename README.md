@@ -4,7 +4,7 @@ nmh 1.5
 mh-e 8.5
 mailfilter 2.x
   .mailfilter.cl
-src/emacs/dkl-mh-e*.el
+dkl-mh-e*.el
 .mh_profile additions for
   ref-hook
   rmmproc
