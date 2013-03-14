@@ -169,11 +169,15 @@ keybindings for the entry point functions, and this is what I do:
 
 In summary:
 
-| Keybinding |  Action                  |
-|:----------:|:-------------------------|
-|`C-x a`     | visit one of the inboxes |
-|`C-x c`     | compose an emacs         |
-|`C-x i`     | read email               |
-|`C-x s`     | visit a folder           |
+| Keybinding | Action                   | Comments                       |
+|:----------:|:-------------------------|:-------------------------------|
+|`C-x a`     | visit one of the inboxes |completing read from minibuffer |
+|`C-x c`     | compose a message        |creates a new draft             |
+|`C-x i`     | show `*Inboxes*` buffer  |w/prefix arg, inc to +inbox     |
+|`C-x s`     | visit a folder           |completing read from minibuffer |
 
 *Inboxes* are defined to be folders named with the prefix `inbox-`.
+You can create an inbox by just refiling a message to it, and creating
+it in the process, or having `incfilter` create the message there.
+(Will `incfilter` create a folder or does it need to already exist?)
+
