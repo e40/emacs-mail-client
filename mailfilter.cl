@@ -68,12 +68,9 @@
     (add-header "X-Touched-By-Incfilter" "v1.0 lisp")
     ;; This is for an as yet unused way of sorting my inbox.  Not sure
     ;; where it will go or even if it will work...
+    #+ignore ;; never completed... don't do it
     (when (not (get-header "X-Priority" headers))
       (add-header "X-DKL-Priority" "50"))
-
-    (ruletest 40 "+inbox-x" (to-one-of
-			     '("pers-wcacd-2604006302@craigslist.org"
-			       "cl94610")))
 
     (ruletest 50  "+inbox-spam" (string= spam-flag "YES"))
     
@@ -83,7 +80,7 @@
 	  (to-one-of "layer-phone@franz.com")))
     
     (let ((dest-folder (message-in-conversation-p subject bhid)))
-      #+ignore
+      #+ignore ;; debugging
       (format t "~d: conversation ~a ~a~%   => ~s~%"
 	      msg-number
 	      subject bhid
