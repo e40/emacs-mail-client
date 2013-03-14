@@ -3,7 +3,6 @@
 ;;;(custom-set-variables '(mh-identity-default "Home"))
 ;;;(custom-set-variables '(mh-identity-default "Work"))
 
-
 ;;;(setq load-path
 ;;;  (cons (expand-file-name "~layer/src/emacs/gnus.git/lisp/") load-path))
 ;;;(require 'gnus-load)
@@ -112,9 +111,7 @@
  '(mh-lpr-command-format "nenscript -Plw2 -h")
  '(mh-ins-buf-prefix ">> ")
  '(mh-delete-yanked-msg-window t)
- '(mh-reply-default-reply-to "cc")
- '(mh-store-default-directory "~/uu/") ;; ???????????????????
- )
+ '(mh-reply-default-reply-to "cc"))
 
 
 (defun my-mh-compose-letter-function (to subject cc)
@@ -133,8 +130,7 @@
   
   (save-excursion
     (goto-char (point-min))
-    (replace-string (char-to-string 160) " "))
-  )
+    (replace-string (char-to-string 160) " ")))
 
 (add-hook 'mh-compose-letter-function 'my-mh-compose-letter-function)
 
@@ -169,13 +165,6 @@
 
 (add-hook 'mh-inc-folder-hook 'my-mh-highlight-folder-hook-function)
 
-;;;(defadvice mh-scan-folder (after my-highlight-messages
-;;;				 (folder range &optional dont-exec-pending)
-;;;				 activate)
-;;;;;;;This call is redundant
-;;;  ;;(my-highlight-messages 'mh-scan-folder mh-current-folder (ad-get-arg 1))
-;;;  )
-
 (defadvice mh-visit-folder (after my-highlight-messages
 				  (folder &optional range index-data)
 				  activate)
@@ -191,11 +180,6 @@
 
 (defadvice mh-execute-commands (after my-highlight-messages () activate)
   (my-highlight-messages 'mh-execute-commands mh-current-folder))
-
-;;;(defadvice mh-toggle-threads (after my-highlight-messages () activate)
-;;;;;;;This call is redundant
-;;;  ;;(my-highlight-messages 'mh-toggle-threads mh-current-folder)
-;;;  )
 
 (defadvice mh-widen (after my-highlight-messages () activate)
   (my-highlight-messages 'mh-widen mh-current-folder))
@@ -216,7 +200,6 @@
   ;;(message "my-highlight-messages from %s" from)
   (my-highlight-by-header mh-current-folder range)
   (my-highlight-by-sequence mh-current-folder range))
-
 
 
 (defun my-highlight-by-header (folder range)
@@ -356,23 +339,6 @@
 ;; ...end highlighting code
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-;;;(defun my-my-mark-in-progress (range)
-;;;  (interactive (list (mh-interactive-range "Mark in progress")))
-;;;  (mh-put-msg-in-seq range 'agraph-approved))
-;;;
-;;;(defun my-my-cancel-in-progress (range)
-;;;  (interactive (list (mh-interactive-range "Cancel in progress")))
-;;;  (mh-delete-msg-from-seq range 'agraph-approved))
-
-;;;(defun my-mh-unpack-msg ()
-;;;  (interactive)
-;;;  (let ((default-directory
-;;;	    (cond ((at-work-on-unix-p)
-;;;		   "/net/hobart/c/Documents and Settings/layer/Desktop/")
-;;;		  ((at-home-on-unix-p)
-;;;		   "/c/Documents and Settings/layer.OOB2/Desktop/"))))
-;;;    (mh-pipe-msg "munpack" nil)))
-
 (make-variable-buffer-local 'smooth-scroll-margin)
 
 (defun my-mh-folder-mode-hook-function ()
@@ -416,7 +382,7 @@ Do not insert any pairs whose value is the empty string."
         (cond ((equal value "")
                nil)
               ((mh-position-on-field field-name)
-;;;;DKL: change " " to ", "
+;;;;DKL: changed " " to ", "
                (insert ", " (or value "")))
               (t
                (insert field-name " " value "\n")))
@@ -425,121 +391,6 @@ Do not insert any pairs whose value is the empty string."
 (add-hook 'mh-letter-mode-hook 'my-mh-letter-mode-hook-function0)
 (add-hook 'mh-letter-mode-hook 'my-mh-letter-mode-hook-function2)
 
-(when (and (boundp 'mh-folder-mode-map) mh-folder-mode-map)
-  (let* ((escape-map (lookup-key mh-folder-mode-map "\e"))
-	 (thread-map (lookup-key mh-folder-mode-map "T")))
-    (when escape-map
-      (define-key mh-folder-mode-map "\e" nil)
-      (define-key mh-folder-mode-map "\C-c" escape-map))
-    
-    (define-key thread-map "^" 'dkl:mh-move-conversation))
-
-;;;  (define-key mh-folder-mode-map "@" 'my-move-to-saved)
-  
-  (define-key mh-folder-mode-map "a" (lookup-key mh-folder-mode-map "r"))
-
-  (define-key mh-folder-mode-map "\C-o" nil)
-  (define-key mh-folder-mode-map "\C-d" nil)
-  (define-key mh-folder-mode-map "C" 'mh-catchup) ; same as my-mh-catchup
-  
-  ;;(define-key mh-folder-mode-map "\C-cw" 'mh-widen)
-  ;;(define-key mh-folder-mode-map "\C-cn" 'mh-narrow-to-seq)
-;;;  (define-key mh-folder-mode-map "\C-c|" 'my-mh-unpack-msg)
-
-  (define-key mh-folder-mode-map "*" 'my-mark-important)
-  (define-key mh-folder-mode-map "_" 'my-mark-unimportant)
-  (define-key mh-folder-mode-map ")" 'my-move-to-end)
-
-  ;; a common typo:
-  (define-key mh-folder-mode-map "l" nil)
-  (define-key mh-folder-mode-map "]" 'bh-mh-append-current-message)
-  (define-key mh-folder-mode-map "}" 'mh-store-msg)
-  (define-key mh-folder-mode-map "/" 'bh-mh-visit-report-other-window)
-  
-;;;  (define-key mh-folder-mode-map "P" 'mh-set-priority)
-  )
-
-(my-setup-completion-map mh-folder-completion-map)
-
-(when (and (boundp 'mh-show-mode-map) mh-show-mode-map)
-  (define-key mh-show-mode-map "\C-o" nil)
-  (define-key mh-show-mode-map "\C-d" nil))
-
-(when (and (boundp 'mh-letter-mode-map) mh-letter-mode-map)
-  ;; Move mh-send-letter from C-c C-c to C-c c
-  (define-key mh-letter-mode-map "\C-c\C-c"
-    '(lambda (&rest foo) (interactive) (error "send with C-c c")))
-  (define-key mh-letter-mode-map "\C-cc" 'mh-send-letter))
-
 (condition-case ()
     (mh-find-path)
   (error nil))
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; aborted "priority" scheme
-
-;;;;;(setq mh-scan-prog "scan.priority")
-;;;;; which uses ~/scan.priority
-;;;;; or variable: mh-scan-format-file
-;;;;; scan -form ~/scan.priority | sort -n -k3 -k1
-;;;;; apropos ``mh-scan.*regexp'' to see the variables I need to tweak
-
-;;;;To turn this on, eval these 3:
-;;(setq mh-adaptive-cmd-note-flag nil)
-;;(setq mh-scan-format-file "~/scan.priority")
-;;(setq mh-scan-prog "scan")
-;;;;;;;;;(setq mh-scan-prog "~/bin/scan.priority")
-
-
-;;;(defun mh-priority-sort ()
-;;;  (interactive)
-;;;  (let ((msg-at-point (mh-get-msg-num nil))
-;;;        (old-buffer-modified-flag (buffer-modified-p))
-;;;        (buffer-read-only nil))
-;;;    (mh-priority-sort-1)
-;;;    (when msg-at-point (mh-goto-msg msg-at-point t t))
-;;;    (set-buffer-modified-p old-buffer-modified-flag)
-;;;    (mh-recenter nil)))
-;;;
-;;;(defun mh-priority-sort-1 ()
-;;;  (message "Priority sorting %s..." (buffer-name))
-;;;  (goto-char (point-min))
-;;;  (mh-remove-all-notation)
-;;;  (let ((msg-list ()))
-;;;    (mh-iterate-on-range msg (cons (point-min) (point-max))
-;;;      (push msg msg-list))
-;;;    (let ((range (mh-coalesce-msg-list msg-list)))
-;;;      (delete-region (point-min) (point-max))
-;;;;;;;HERE: output sorted order
-;;;      (apply
-;;;       #'call-process
-;;;       (expand-file-name "~/bin/scan.priority")
-;;;       nil				;INFILE
-;;;       '(t nil)				;BUFFER
-;;;       nil				;DISPLAY
-;;;       mh-current-folder
-;;;       (mapcar #'(lambda (x) (format "%s" x)) msg-list)
-;;;       )
-;;;;;;;
-;;;      (mh-notate-user-sequences)
-;;;      (mh-notate-deleted-and-refiled)
-;;;      (mh-notate-cur)
-;;;;;;;TODO: some weird performance problem with this:
-;;;;;;      (dolist (range msg-list)
-;;;;;;	(my-highlight-messages nil mh-current-folder range))
-;;;      (message "Priority sorting %s...done" (buffer-name)))))
-;;;
-;;;(defun mh-set-priority (range priority)
-;;;  (interactive
-;;;   (list (mh-interactive-range "message list for setting priority")
-;;;	 (read-string "message priority: " nil nil "50")))
-;;;  
-;;;  (mh-iterate-on-range msg range
-;;;    (mh-exec-cmd "anno" mh-current-folder msg
-;;;		 "-component" "x-dkl-priority"
-;;;		 "-inplace" "-delete")
-;;;    
-;;;    (mh-exec-cmd "anno" mh-current-folder msg
-;;;		 "-component" "x-dkl-priority"
-;;;		 "-nodate" "-inplace" "-append"
-;;;		 "-text" priority)))

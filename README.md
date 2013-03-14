@@ -152,18 +152,26 @@ Then, load `dkl-mh-e.el` from this repo.  I do it this way:
 keybindings for the entry point functions, and this is what I do:
 
     ;; visit a specific inbox:
-    (define-key my-ctl-x-map "a" (when *logged-in-as-layer* 'dkl:mh-scan-inboxes))
+    (define-key ctl-x-map "a" 'dkl:mh-scan-inboxes)
+
     ;; compose an email:
-    (define-key my-ctl-x-map "c" (when *logged-in-as-layer* 'mh-smail))
+    (define-key ctl-x-map "c" 'mh-smail)
+
     ;; read email:
-    (define-key my-ctl-x-map "i" (when *logged-in-as-layer* 'dkl:mh-rmail))
+    (define-key ctl-x-map "i" 'dkl:mh-rmail)
+
     ;; visit a specific MH/nmh folder:
     ;;  (I call it with an argument so it asks which MH folder to visit)
-    (define-key my-ctl-x-map "s" (when *logged-in-as-layer*
-                                   (lambda ()
-                                     (interactive)
-                                     (mh-rmail 1))))
+    (define-key ctl-x-map "s" (lambda ()
+                                (interactive)
+                                (mh-rmail 1))))
 
-`*logged-in-as-layer*` allows me to load the same `.emacs` as root or
-another user, and not define mail-reading key bindings.
 
+In summary:
+
+| Keybinding |  Action                  |
+|:----------:|:-------------------------|
+|C-x a       | visit one of the inboxes |
+|C-x c       | compose an emacs         |
+|C-x i       | read email               |
+|C-x s       | visit a folder           |
