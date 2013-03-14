@@ -16,23 +16,20 @@ front of **inc** (the MH way of reading new mail) that would sort new
 mail into different *inboxes*.  The rules were written in Perl and
 were fairly concise.
 
-I used the Perl-based filter for some time.  Then later in the 90's I
-had a promising young programming working for me and, being at a
-Common Lisp company, I wanted a CL version of the Perl filter.  So,
-Ahmon Dancy wrote the CL version of the Perl script, and
-**mailfilter** was born.  The CL version uses rules in Common Lisp,
-obviously, and that was nice for me because it had the power of CL
-(macros and more).  Look at *mailfilter.cl* in the repo to see what
-the rules look like.  This is the actual rules I use for my personal
-email.  The ones for work are a lot more complex, but contain things
-which I don't want to make public.
+I used the Perl-based filter for some time.  Then later in the 90's
+Ahmon Dancy wrote a Common Lisp version of the Perl script, and
+**mailfilter** was born.  The Common Lisp version features rules in
+Common Lisp, obviously.  Look at *mailfilter.cl* in the repo to see
+what the rules look like.  This is the actual rules I use for my
+personal email.  The ones for work are a lot more complex, but contain
+things which I don't want to make public.
 
 I used the system in this state for another 15 years, when I really
 needed something better to manage the large number of balls I was
 keeping in the air.  The problem: my **+inbox** tended to grow large
-over time and I'd lose track of all the messages in my various other
-inboxes.  Not only that, I would periodically have to spend several
-hours cleaning up my **+inbox**.  It was really painful.
+over short periods of time and I'd lose track of all the messages in
+my various other inboxes.  Not only that, I would have to periodically
+spend several hours cleaning up my **+inbox**.  It was really painful.
 
 The first thing I did was write an Emacs mode for looking at the
 inboxes.  Instead of looking at my **+inbox**, I could look at a
