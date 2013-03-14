@@ -1,0 +1,763 @@
+2013-03-02  Bill Wohler  <wohler@newt.com>
+
+	Release MH-E version 8.5.
+
+	* README: Update for release 8.5.
+
+2012-11-26  Bill Wohler  <wohler@newt.com>
+
+	* release-utils (tag): Ignore errors when unbinding unbound
+	branches.
+
+2012-11-25  Bill Wohler  <wohler@newt.com>
+
+	Release MH-E version 8.4.
+
+	* README: Update for release 8.4.
+
+2012-11-24  Bill Wohler  <wohler@newt.com>
+
+	* test-mh-e: Use EMACS_SRC environment variable to override default
+	emacs/trunk branch (with emacs/mh-e, for example). Use it within
+	the rest of the script and pass it to make.
+
+	* mh-unit.el: Update copyright.
+	(mh-unit): Use EMACS_SRC environment variable to override default
+	emacs/trunk branch (with emacs/mh-e, for example).
+	(mh-unit-test-x-image-url-cache-canonicalize): Update expected
+	strings for Emacs 24. It appears that url-hexify-string now
+	converts ! to %21 and uses capital letters for hexadecimal digits.
+
+2011-11-20  Bill Wohler  <wohler@newt.com>
+
+	Release MH-E version 8.3.1.
+
+	* README: Update for release 8.3.1.
+
+2011-09-19  Bill Wohler  <wohler@newt.com>
+
+	Release MH-E version 8.3.
+
+	* README: Update for release 8.3.
+
+2011-07-17  Bill Wohler  <wohler@newt.com>
+
+	Release MH-E version 8.2.93.
+
+	* README: Update for release 8.2.93.
+
+	* test-mh-e: Add script used for testing MH-E.
+
+2011-07-16  Bill Wohler  <wohler@newt.com>
+
+	Release MH-E version 8.2.92.
+
+	* README: Update for release 8.2.92.
+
+	* mh-xemacs.el (mh-modeline-glyph): Update glyph so that it does
+	not cause errors on terminal window even when created on a window
+	system.  Thanks to Henrique Martins and Mike Kupfer.
+
+2011-07-13  Bill Wohler  <wohler@newt.com>
+
+	* mh-xemacs.el (mh-modeline-glyph): Revert previous change since
+	it didn't help on XEmacs.
+
+2011-07-11  Bill Wohler  <wohler@newt.com>
+
+	Release MH-E version 8.2.91.
+
+	* README: Update for release 8.2.91.
+
+	* mh-xemacs.el (mh-modeline-glyph): Don't define in terminal
+	windows to avoid errors. Thanks to Henrique Martins.
+
+	* README: Add trunk to `load-path.' Thanks to Henrique Martins.
+
+2011-07-10  Bill Wohler  <wohler@newt.com>
+
+	Release MH-E version 8.2.90.
+
+	* README: Update for release 8.2.90.
+
+	* COPYING, Makefile, mh-unit.el, mh-xemacs.el, release-utils:
+	Update to GNU GPL version 3, use date ranges in copyright.
+
+	* release-utils (tag): Remove errant @ character. Call bzr unbind
+	before bzr bind, since bzr bind fails if branch already bound.
+
+2011-07-09  Bill Wohler  <wohler@newt.com>
+
+	* mh-unit.el: Use eval-and-compile instead of eval-when-compile
+	since mh-require-cl is needed at evaluation time too.
+	(mh-unit): Append trunk to emacs paths.
+	(mh-unit-construct-call-graph)
+	(mh-unit-test-normalize-folder-name)
+	(mh-unit-test-sub-folders-actual)
+	(mh-unit-test-sub-folders): Use OK at end of message instead of
+	done.
+	(mh-unit-test-folder-completion-function): Update tests per
+	Stefan's recent changes to MH-E's folder completion.
+	(mh-unit-equal): Display expected string first to be consistent
+	with JUnit, for example.
+
+2011-07-04  Bill Wohler  <wohler@newt.com>
+
+	* release-utils (tag): Explicitly bind to branch so that tag
+	affects upstream branch.
+
+2011-07-03  Bill Wohler  <wohler@newt.com>
+
+	* Makefile: Put all copyrights written to files in ranges and add
+	2011 to range.
+
+2011-07-02  Bill Wohler  <wohler@newt.com>
+
+	* release-utils (distCheck): Remove debugging code. Use -ne in
+	comparison of numbers.
+
+2011-06-26  Bill Wohler  <wohler@newt.com>
+
+	* README: Replace references to CVS with Bazaar.
+
+	* release-utils (dist, tag, variable_changes): Update from cvs to
+	Bazaar.
+
+	* Makefile (CVSROOT, CVSLOGIN, CVSMETHOD) Replace with URL and
+	DEV_URL.
+	(MH_E_SRC, MH_E_SRC_NONCOMPILED, MH_E_LOADDEFS)
+	(MH_E_AUTOLOADS, MH_E_CUSTOM_LOAD, MH_E_IMG, MH_E_ETC)
+	(MH_E_MAINT): Define and use EMACS_SRC for emacs/trunk.
+	(emacs, emacs-devel): Use bzr instead of cvs.
+	(tag, dist): Update args for release-utils --tag.
+	(backup): Remove. Obsolete.
+
+2009-06-13  Bill Wohler	 <wohler@newt.com>
+
+	Release MH-E version 8.2.
+
+	* README: Update for release 8.2.
+
+2008-08-18  Bill Wohler	 <wohler@newt.com>
+
+	Release MH-E version 8.1.
+
+	* README: Update for release 8.1.
+
+2006-11-13  Bill Wohler  <wohler@newt.com>
+
+	* mh-unit.el (mh-unit-test-x-image-url-cache-canonicalize): Add
+	test for invalid Window characters (closes SF #1396499).
+
+2006-11-12  Bill Wohler  <wohler@newt.com>
+
+	Release MH-E version 8.0.3.
+
+	* README: Update for release 8.0.3.
+
+	* mh-unit.el (mh-unit-test-x-image-url-cache-canonicalize): Hex
+	equivalents now use lowercase.
+
+2006-07-03  Bill Wohler  <wohler@newt.com>
+
+	Release MH-E version 8.0.2.
+
+	* README: Update for release 8.0.2.
+
+2006-07-03  Bill Wohler  <wohler@newt.com>
+
+	* mh-xemacs.el: (mh-icon-image): New function. Returns XPM from
+	icon file.
+	(mh-xemacs-icon-list): New constant. List of icons used by MH-E.
+	(mh-xemacs-icon-map): Initialize in place, using mh-icon-image to
+	read images from icon files.
+	(mh-modeline-glyph): Use mh-logo file instead of mh-modeline-logo
+	constant.
+	(mh-modeline-logo, mh-xemacs-attach-icon, mh-xemacs-close-icon)
+	(mh-xemacs-copy-icon, mh-xemacs-cut-icon)
+	(mh-xemacs-execute-icon, mh-xemacs-fld-open-icon)
+	(mh-xemacs-help-icon, mh-xemacs-highlight-icon)
+	(mh-xemacs-left-arrow-icon, mh-xemacs-mail-icon)
+	(mh-xemacs-mail-alias-icon, mh-xemacs-mail-compose-icon)
+	(mh-xemacs-mail-refile-icon, mh-xemacs-mail-repack-icon)
+	(mh-xemacs-mail-reply-icon, mh-xemacs-mail-reply-all-icon)
+	(mh-xemacs-reply-from-icon, mh-xemacs-reply-to-icon)
+	(mh-xemacs-mail-send-icon, mh-xemacs-page-down-icon)
+	(mh-xemacs-paste-icon, mh-xemacs-preferences-icon)
+	(mh-xemacs-refresh-icon, mh-xemacs-right-arrow-icon)
+	(mh-xemacs-save-icon, mh-xemacs-search-icon)
+	(mh-xemacs-show-icon, mh-xemacs-spell-icon, mh-xemacs-undo-icon)
+	(mh-xemacs-widen-icon): Delete.
+
+	* Makefile (MH_E_IMG): Add save.pbm and save.xpm.
+
+2006-07-03  Ted Phelps  <phelps@gnusto.com>  (tiny change)
+
+	(mh-xemacs-unknown-icon): New icon. Used if icons can't be found.
+
+2006-06-20  Bill Wohler  <wohler@newt.com>
+
+	Release MH-E version 8.0.1.
+
+	* README: Update for release 8.0.1.
+
+2006-06-20  Bill Wohler  <wohler@newt.com>
+
+	* README: Depend on GNU mailutils 1.0 (not yet released) and
+	higher due to a bug in folder.
+
+2006-05-06  Bill Wohler  <wohler@newt.com>
+
+	Release MH-E version 8.0.
+
+	* README: Update for release 8.0.
+
+2006-05-05  Bill Wohler  <wohler@newt.com>
+
+	* release-utils (variable_changes): Fix handling of defcustoms
+	that don't start in the first column. Add faces.
+
+2006-04-28  Bill Wohler  <wohler@newt.com>
+
+	Release MH-E version 7.95.
+
+	* README: Update for release 7.95.
+
+2006-04-21  Bill Wohler  <wohler@newt.com>
+
+	Release MH-E version 7.94.
+
+	* README: Update for release 7.94.
+
+2006-04-18  Bill Wohler  <wohler@newt.com>
+
+	* Makefile (custom-deps): Load mh-e in order to provide
+	defcustom-mh, defgroup-mh, and defface-mh to
+	[Cc]ustom-make-dependencies. This was necessary to bring back the
+	the MH-E customization groups in mh-cus-load.el which disappeared
+	when the macros above were introduced.
+	(EMACS_OPTIONS): Add emacs/lisp/mh-e to load-path. Needed by
+	custom-deps on Emacs 21.
+
+2006-04-17  Bill Wohler  <wohler@newt.com>
+
+	* mh-unit.el (mh-test-rel-folder, mh-test-abs-folder)
+	(mh-test-folders-set-up, mh-test-folders-tear-down)
+	(mh-unit-test-sub-folders-actual)
+	(mh-unit-test-sub-folders)
+	(mh-unit-test-folder-completion-function): New unit tests to test
+	mh-sub-folders-actual, mh-sub-folders, and
+	mh-folder-completion-function.
+	(mh-unit-test-normalize-folder-name, mh-unit-equal): Checkdoc fix.
+	(mh-unit-test-sub-folders-actual, mh-unit-test-sub-folders): Fix
+	order of lists in expected output.
+
+2006-04-09  Mark D. Baushke  <mdb@gnu.org>
+
+	* Makefile (MH_E_TMP): Extend need for workaround past Emacs 21.
+	(all): Change 'true' to ':' on arg to recursive make for efficiency.
+	(MH_E_LOADDEFS_HEADER): Append \n for use with printf.
+	(MH_E_AUTOLOADS_HEADER): Ditto.
+	(MH_E_LOADDEFS_FOOTER): Use \f instead of literal 0xc (Control-L).
+	(MH_E_AUTOLOADS_FOOTER, MH_E_CUSTOM_LOAD_FOOTER): Ditto
+	($(MH_E_LOADDEFS)): Replace 'echo -e' with more portable printf.
+	Replace sed expression with printf and cat combination for
+	portability.
+	($(MH_E_AUTOLOADS)): Simplify if $(XEMACS) expression.
+	Use printf and cat to replace non-portable sed command.
+	(MH_E_CUSTOM_LOAD_HEADER): Append \n for use with printf.
+	($(MH_E_CUSTOM_LOAD)): Use sed, and printf to replace non-portable
+	sed command.
+	(Closes SF #1467222).
+
+2006-03-28  Bill Wohler  <wohler@newt.com>
+
+	* Makefile (MH_E_IMG): Add emacs/etc/images/attach.xpm,
+	emacs/etc/images/contact.pbm, emacs/etc/images/contact.xpm,
+	emacs/etc/images/data-save.pbm, emacs/etc/images/data-save.xpm,
+	emacs/etc/images/delete.pbm, emacs/etc/images/delete.xpm,
+	emacs/etc/images/mail/flag-for-followup.pbm,
+	emacs/etc/images/mail/flag-for-followup.xpm,
+	emacs/etc/images/mail/inbox.pbm, emacs/etc/images/mail/inbox.xpm,
+	emacs/etc/images/mail/move.pbm, emacs/etc/images/mail/move.xpm,
+	emacs/etc/images/next-page.pbm, emacs/etc/images/next-page.xpm,
+	emacs/etc/images/open.pbm, emacs/etc/images/open.xpm,
+	emacs/etc/images/zoom-out.pbm, emacs/etc/images/zoom-out.xpm.
+	Remove emacs/etc/images/close.pbm, emacs/etc/images/close.xpm,
+	emacs/etc/images/execute.pbm, emacs/etc/images/execute.xpm,
+	emacs/etc/images/fld-open.pbm, emacs/etc/images/fld-open.xpm,
+	emacs/etc/images/highlight.pbm, emacs/etc/images/highlight.xpm,
+	emacs/etc/images/mail.pbm, emacs/etc/images/mail.xpm,
+	emacs/etc/images/mail/alias.pbm, emacs/etc/images/mail/alias.xpm,
+	emacs/etc/images/mail/refile.pbm,
+	emacs/etc/images/mail/refile.xpm, emacs/etc/images/page-down.pbm,
+	emacs/etc/images/page-down.xpm, emacs/etc/images/widen.pbm,
+	emacs/etc/images/widen.xpm.
+
+2006-03-09  Bill Wohler  <wohler@newt.com>
+
+	* Makefile (MH_BACKUP_DIR, MH_DIRS, MH_FILES, backup): New
+	variables and target used to back up CVS files at Savannah.
+
+2006-03-05  Bill Wohler  <wohler@newt.com>
+
+	Release MH-E version 7.93.
+
+	* README: Update for release 7.93.
+
+2006-03-04  Bill Wohler  <wohler@newt.com>
+
+	* mh-unit.el (mh-unit-test-normalize-folder-name): Add.
+
+2006-03-03  Bill Wohler  <wohler@newt.com>
+
+	* README (ADDITIONAL INFORMATION): Mention MH-E documentation
+	package. Fix URL to online manual.
+
+	* release-utils (variable_changes): Defcustoms now in mh-e.el.
+
+2006-03-02  Bill Wohler  <wohler@newt.com>
+
+	* mh-unit.el (mh-unit-test-x-image-url-cache-canonicalize):
+	Require mh-xface instead of mh-utils since the function moved.
+	(mh-unit-test-quote-pick-expr): Add.
+
+2006-02-27  Bill Wohler  <wohler@newt.com>
+
+	* Makefile (MH_E_CUSTOM_LOAD_FOOTER): Remove extra semicolon from
+	End.
+
+2006-02-18  Bill Wohler  <wohler@newt.com>
+
+	* Makefile (INSTALL): Add -m 644.
+	(install-maint): Insert form feed ^L to keep local variable
+	mechanism from finding local variables in the various targets.
+	Clarify error message.
+
+2006-02-18  Bill Wohler  <wohler@newt.com>
+
+	Release MH-E version 7.92.
+
+	* README: Update for release 7.92.
+
+2006-02-16  Bill Wohler  <wohler@newt.com>
+
+	* mh-unit.el (mh-unit): Set checkdoc-max-keyref-before-warn to 12
+	before calling checkdoc since we're over the default limit of 10.
+	Rendering mh-search (the function with lots of functions in the
+	docstrings) is still really fast.
+
+2006-02-15  Bill Wohler  <wohler@newt.com>
+
+	* Makefile: (MH_E_TMP): New variable that contains name of
+	temporary file.
+	(loaddefs, autoloads, custom_deps): Use temporary file instead of
+	sed -i. The -i (--inplace) option was probably introduced in sed
+	4.0 on 2002-10-23. As long as we support Emacs 21, which was first
+	released in 2001-10-24, we should support other packages which
+	existed at the time. When we drop Emacs 21 support, we can use sed
+	-i (closes SF #1432060).
+	(dist): Drop autoloads target as this is now part of the Emacs
+	target.
+
+2006-02-08  Jeffrey C Honig  <jch@honig.net>
+
+	* Makefile (INSTALL, .PHONY, install-maint): Add install-maint
+	target for developers to use to install compiled files and images
+	for testing.
+
+2006-02-03  Bill Wohler  <wohler@newt.com>
+
+	Release MH-E version 7.91.
+
+	* README: Update for release 7.91.
+
+2006-02-02  Bill Wohler  <wohler@newt.com>
+
+	Release MH-E version 7.90.
+
+	* README: Update for release 7.90.
+
+2006-02-01  Bill Wohler  <wohler@newt.com>
+
+	* README (INSTALL, CVS MH-E INSTALL): Move note about XEmacs users
+	needing to add the top of the tree to their load-path to INSTALL
+	since it is applicable there too.
+
+	* Makefile (MH_E_IMG): Removed copies of page-down.pbm,
+	page-down.xpm, undo.pbm, and undo.xpm.
+
+	* mh-xemacs.el (mh-xemacs-compiling-flag): Move to mh-e.el and
+	rename to mh-compiling-flag.
+	(require, cancel-timer, display-color-cells)
+	(line-beginning-position, line-end-position)
+	(match-string-no-properties, replace-regexp-in-string)
+	(view-mode-enter): Move definition to mh-compat.el and add mh-
+	prefix since compatibility functions should have our package
+	prefix (mh-) by Emacs convention and to avoid messing up checks
+	for the same functions in other packages.
+
+2006-01-29  Bill Wohler  <wohler@newt.com>
+
+	* Makefile (MH_E_SRC): Move mh-acros.el to MH_E_SRC_NONCOMPILED.
+	Add mh-folder.el, mh-letter.el, mh-limit.el, mh-scan.el,
+	mh-show.el, mh-thread.el, mh-tool-bar.el, mh-xface.el. Remove
+	mh-customize.el, mh-exec.el, mh-init.el.
+	(MH_E_SRC_NONCOMPILED): Add mh-acros.el and mh-compat.el.
+	(EMACS_EXPORT_MH_AUTOLOADS): Change autoload-package-name to mh.
+	(Emacs): Add autoloads and custom-deps since the former is
+	mandatory now.
+	(MH_E_LOADDEFS_HEADER)
+	(MH_E_AUTOLOADS_HEADER, MH_E_AUTOLOADS_FOOTER)
+	(MH_E_CUSTOM_LOAD_HEADER, MH_E_CUSTOM_LOAD_FOOTER): Minor cosmetic
+	tweaks.
+	(CVSMETHOD): Inline comment causes spaces to be inserted on
+	substitution which causes error in emacs target.
+
+	* README (INSTALL): Fix docs for mh-autoloads (required by Emacs
+	21 users). Mention mh-cus-load.
+
+	* mh-unit.el (mh-unit-files): Add mh-autoloads.el, mh-compat.el,
+	mh-cus-load.el, mh-folder.el, mh-letter.el, mh-limit.el,
+	mh-scan.el, mh-show.el, mh-thread.el, mh-tool-bar.el, mh-xface.el.
+	Remove mh-customize.el, mh-init.el.
+
+	* mh-xemacs.el: (mh-acros): Don't require it, since this file
+	doesn't use anything from it.
+	(mh-xemacs-compiling-flag): New variable.
+	(display-color-cells): Fix compile error by replacing defalias
+	with defsubst that doesn't call device-color-cells when
+	mh-xemacs-compiling-flag is t.
+	(require): Add function to provide a noerror argument.
+	(view-mode-enter): Add defsubst.
+
+2006-01-27  Bill Wohler  <wohler@newt.com>
+
+	* release-utils (ver): Bumped to 1.2.
+	(variable_changes): Updated to new paths for Emacs repository.
+
+2006-01-25  Mark D. Baushke  <mdb@gnu.org>
+
+	* Makefile ($(MH_E_LOADDEFS)): FreeBSD 4.10 has problems with
+	inplace stream editing with a bare -i switch unless -e is present.
+	($(MH_E_AUTOLOADS): Ditto.
+	($(MH_E_CUSTOM_LOAD)): Ditto.
+
+2006-01-16  Bill Wohler  <wohler@newt.com>
+
+	* Makefile (MH_E_SRC): Add mh-exec.el.
+
+2006-01-12  Bill Wohler  <wohler@newt.com>
+
+	* Makefile (MH_E_SRC): Replace mh-index.el and mh-pick.el
+	with mh-search.el.
+
+	* mh-unit.el (mh-unit-files): Ditto.
+
+2006-01-11  Bill Wohler  <wohler@newt.com>
+
+	* mh-unit.el (mh-unit-files): Add mh-buffers.el.
+	(mh-unit-equal): Add label argument.
+	(mh-unit-test-pick-args-list): Use it.
+	(mh-unit-test-x-image-url-cache-canonicalize): Use it. Also
+	updated expected output now that the function uses
+	url-hexify-string.
+
+	* Makefile (MH_E_SRC): Add mh-buffers.el.
+
+	* mh-xemacs.el: Sort aliases.
+	(replace-regexp-in-string): Add defsubst for replace-in-string.
+
+2006-01-09  Bill Wohler  <wohler@newt.com>
+
+	* README (INTRODUCTION): Remove Emacs 20 support.
+
+2006-01-08  Bill Wohler  <wohler@newt.com>
+
+	* README (CVS MH-E INSTALL): Mention that XEmacs users will have
+	to add the src directory to their load-path as well.
+
+	* Makefile: Clean up and fix compilation on XEmacs (closes
+	#1127595). Makefile now creates mh-loaddefs.el, mh-autoloads.el,
+	and mh-cus-load.el on both GNU Emacs and XEmacs using the same
+	targets (loaddefs, autoloads, and custom-deps respectively). The
+	compilation of the files works again (after the directory
+	reorganization), but a couple of pesky compilation errors remain.
+	At least the .el files load and run!
+	(MH_E_CUSTOM_DEPS): Add.
+	(MH_E_AUTOGEN): Add MH_E_CUSTOM_DEPS to it.
+	(EMACS_EXPORT_MH_LOADDEFS): Move command to autoloads target. Add
+	setting of autoload-package-name for XEmacs. Now used by both GNU
+	Emacs and XEmacs.
+	(EMACS_EXPORT_MH_AUTOLOADS): Add. Used in same fashion as
+	EMACS_EXPORT_MH_LOADDEFS (which is used in the creation of
+	mh-loeddefs.el) to create mh-autoloads.el.
+	(XEMACS_OPTIONS): Replace --no-autoloads and --eval (push
+	default-directory load-path) which both broke compile with
+	--vanilla and added both "." and "emacs/lisp/mh-e" to load-path.
+	(AUTOLOAD_PACKAGE_NAME): Delete. Moved code to
+	EMACS_EXPORT_MH_LOADDEFS and EMACS_EXPORT_MH_AUTOLOADS.
+	(AUTOLOAD_FILE): Delete. Use MH_E_AUTOLOADS.
+	(XEMACS_EXPORT_MH_LOADDEFS): Delete. Broken.
+	EMACS_EXPORT_MH_LOADDEFS now works on XEmacs too.
+	(all): Delete passing of XEMACS_EXPORT_MH_LOADDEFS to make now
+	that EMACS_EXPORT_MH_LOADDEFS supports XEmacs. Delete passing of
+	MH_E_LOADDEFS_SRC since target uses directory, not actual files.
+	It's also unlikely that mh-xemacs.el will contain functions that
+	need to be autoloaded since the file is required when necessary.
+	(Emacs): Depend on loaddefs, not autoloads.
+	(MH_E_LOADDEFS_HEADER, MH_E_LOADDEFS_FOOTER): XEmacs fix.
+	(loaddefs): Rename from loaddefs since it is really used to create
+	mh-loaddefs.el. Move -f batch-update-autoloads here from
+	EMACS_EXPORT_MH_LOADDEFS to be consistent with compile target as
+	well as being easier to read and understand. XEmacs fix. Works for
+	both GNU Emacs and XEmacs.
+	(MH_E_AUTOLOADS_HEADER, MH_E_AUTOLOADS_FOOTER): Add. Parallel with
+	MH_E_LOADDEFS_HEADER, MH_E_LOADDEFS_FOOTER.
+	(autoloads): New target that depends on MH_E_AUTOLOADS. Use
+	MH_E_AUTOLOADS_HEADER and MH_E_AUTOLOADS_FOOTER. Use
+	EMACS_EXPORT_MH_AUTOLOADS when compiling. Works on both GNU Emacs
+	and XEmacs.
+	(xemacs): Drop clean, custom-load.elc, auto-autoloads.elc. Rename
+	autoloads to loaddefs.
+	(clean-xemacs): Rename to double-colon target clean. Remove
+	custom-load.el as this has been added to MH_E_AUTOGEN and is
+	cleaned elsewhere.
+	(MH_E_CUSTOM_LOAD_HEADER, MH_E_CUSTOM_LOAD_FOOTER): Add. Used to
+	create custom-load.el. Parallel with MH_E_LOADDEFS_HEADER,
+	MH_E_LOADDEFS_FOOTER.
+	(auto-autoloads.elc): Removed. Now built by common autoloads.
+	(custom-deps) Renamed from custom-load.elc. Don't bother
+	compiling. Add header and footer. Works with both GNU Emacs and
+	XEmacs.
+	(compile-xemacs): Compile $? (like compile target), not $^,
+	whatever that is.
+	(dist): Use autoloads instead of MH_E_AUTOLOADS.
+
+	* mh-xemacs.el: Deleted all of the unnecessary requires,
+	autoloads, and defvars at the top.
+	(display-color-cells): Add alias to device-color-cells.
+	(define-behavior): fboundp should be on define-behavior, not
+	define-behavior-group. Wrap in eval-when-compile to avoid compiler
+	error.
+	(mh-modeline-glyph): Remove mh-do-in-xemacs wrapper. Unnecessary
+	as this file is only loaded if you are in XEmacs.
+	(mh-xemacs-compose-insertion-icon)
+	(mh-xemacs-fully-kill-draft-icon, mh-xemacs-letter-help-icon):
+	Unused. Delete.
+
+2006-01-03  Bill Wohler  <wohler@newt.com>
+
+	* Makefile (CVSMETHOD): New variable.
+	(emacs): Use it, so developers can get the minimum number of MH-E
+	files from Savannah while still being able to use ssh to check in
+	their changes (by setting it to "ext" on the command line).
+
+	* README (CVS MH-E INSTALL): Add information about new CVSMETHOD
+	variable.
+
+2005-12-22  Bill Wohler  <wohler@newt.com>
+
+	* mh-unit.el: Revert to default docstring fill-column.
+
+2005-12-19  Bill Wohler  <wohler@newt.com>
+
+	* Makefile (CVSROOT): Now at cvs.savannah.gnu.org.
+	(emacs): Savannah now uses :pserver: for access.
+	(XEMACS): New variable. Initialized to false.
+	(all): Set XEMACS to true for XEmacs.
+	(MH_E_LOADDEFS_HEADER, MH_E_LOADDEFS_FOOTER): New variables.
+	Contains content of echo statements from
+	(autoloads): Incorporate header in advance on GNU Emacs, but not
+	on XEmacs. Insert later on XEmacs. Adapted patch from Clemens
+	Fruhwirth.
+
+2005-12-18  Bill Wohler  <wohler@newt.com>
+
+	* mh-xemacs.el (mh-xemacs-has-toolbar-flag): Rename to
+	mh-xemacs-has-tool-bar-flag. Add conditions that were in
+	mh-xemacs-use-tool-bar-flag.
+	(mh-xemacs-icon-map): Declare near top of file and add elements as
+	icons are defined. Previously, it was difficult to match up the
+	association list with the icons.
+	(mh-xemacs-toolbar-inc-folder-icon, mh-xemacs-mail-icon): Rename
+	to use the same name as the GNU Emacs icon to reduce confusion,
+	drop the -toolbar- since icons really can be used anywhere, and
+	sort.
+	(mh-xemacs-toolbar-mime-save-parts-icon, mh-xemacs-attach-icon):
+	Ditto.
+	(mh-xemacs-toolbar-next-undeleted-msg-icon)
+	(mh-xemacs-right-arrow-icon): Ditto.
+	(mh-xemacs-toolbar-page-msg-icon, mh-xemacs-page-down-icon):
+	Ditto.
+	(mh-xemacs-toolbar-previous-undeleted-msg-icon)
+	(mh-xemacs-left-arrow-icon): Ditto.
+	(mh-xemacs-toolbar-delete-msg-icon, mh-xemacs-close-icon): Ditto.
+	(mh-xemacs-toolbar-kill-ring-save-icon)
+	(mh-xemacs-copy-icon): Ditto
+	(mh-xemacs-toolbar-undo-icon, mh-xemacs-undo-icon): Ditto.
+	(mh-xemacs-toolbar-kill-region-icon, mh-xemacs-cut-icon): Ditto.
+	(mh-xemacs-toolbar-execute-commands-icon, mh-xemacs-execute-icon):
+	Ditto.
+	(mh-xemacs-toolbar-visit-folder-icon, mh-xemacs-fld-open-icon):
+	Ditto.
+	(mh-xemacs-toolbar-help-icon, mh-xemacs-help-icon): Ditto.
+	(mh-xemacs-toolbar-toggle-tick-icon, mh-xemacs-highlight-icon):
+	Ditto.
+	(mh-xemacs-toolbar-toggle-showing-icon, mh-xemacs-show-icon):
+	Ditto.
+	(mh-xemacs-toolbar-refile-msg-icon, mh-xemacs-mail-refile-icon):
+	Ditto.
+	(mh-xemacs-toolbar-reply-all-icon)
+	(mh-xemacs-mail-reply-all-icon): Ditto.
+	(mh-xemacs-toolbar-reply-from-icon, mh-xemacs-reply-from-icon):
+	Ditto.
+	(mh-xemacs-toolbar-reply-to-icon, mh-xemacs-reply-to-icon): Ditto.
+	(mh-xemacs-toolbar-reply-icon, mh-xemacs-mail-reply-icon): Ditto.
+	(mh-xemacs-toolbar-alias-grab-from-field-icon)
+	(mh-xemacs-mail-alias-icon): Ditto.
+	(mh-xemacs-toolbar-send-icon, mh-xemacs-mail-compose-icon): Ditto.
+	(mh-xemacs-toolbar-rescan-folder-icon, mh-xemacs-refresh-icon):
+	Ditto.
+	(mh-xemacs-toolbar-pack-folder-icon, mh-xemacs-mail-repack-icon):
+	Ditto.
+	(mh-xemacs-toolbar-search-icon, mh-xemacs-search-icon): Ditto.
+	(mh-xemacs-toolbar-visit-folder-icon, mh-xemacs-fld-open-icon):
+	Ditto.
+	(mh-xemacs-toolbar-send-letter-icon, mh-xemacs-mail-send-icon):
+	Ditto.
+	(mh-xemacs-toolbar-ispell-message-icon, mh-xemacs-spell-icon):
+	Ditto.
+	(mh-xemacs-toolbar-save-buffer-icon, mh-xemacs-save-icon): Ditto.
+	(mh-xemacs-toolbar-kill-region-icon, mh-xemacs-cut-icon): Ditto.
+	(mh-xemacs-toolbar-kill-ring-save-icon, mh-xemacs-copy-icon):
+	Ditto.
+	(mh-xemacs-toolbar-yank-icon, mh-xemacs-paste-icon): Ditto.
+	(mh-xemacs-toolbar-preferences-icon, mh-xemacs-preferences-icon):
+	Ditto.
+	(mh-xemacs-toolbar-widen-icon, mh-xemacs-widen-icon): Ditto.
+	(mh-xemacs-toolbar-compose-insertion-icon)
+	(mh-xemacs-compose-insertion-icon): Rename to drop the -toolbar-
+	since icons really can be used anywhere. However, this icon isn't
+	listed in mh-xemacs-icon-map and is therefore unused. Delete?
+	(mh-xemacs-toolbar-fully-kill-draft-icon)
+	(mh-xemacs-fully-kill-draft-icon): Ditto.
+	(mh-xemacs-toolbar-letter-help-icon, mh-xemacs-letter-help-icon):
+	Ditto.
+
+2005-12-01  Bill Wohler  <wohler@newt.com>
+
+	* Makefile ($(MH_E_LOADDEFS)): Follow comment conventions.
+
+2005-10-24  Bill Wohler  <wohler@newt.com>
+
+	* Makefile (EMACSCVSROOT): Rename to CVSROOT for consistency with
+	CVSLOGIN.
+	(CVSLOGIN): New variable. Set to anoncvs.
+	(emacs): Check out emacs with anoncvs for non-developers.
+	Developers can check out minimum development environment with
+	"make CVSLOGIN=$USER emacs".
+	(emacs-devel): New target for developers. Checks out all of Emacs
+	using $(USER) privileges.
+
+	* README (CVS MH-E INSTALL): Mention new `emacs-devel' Makefile
+	target.
+
+2005-10-17  Bill Wohler  <wohler@newt.com>
+
+	* Makefile (MH_E_IMG): Several of the standard Emacs images were
+	renamed so these needed to be added to the distribution so they
+	would be found in Emacs 20 and 21. While I was at it, I thought I
+	might as well as include all images. When the images are updated
+	to the latest GNOME images, this will become essential to avoid a
+	mix of old and new images in the MH-E toolbar.
+
+2005-10-14  Bill Wohler  <wohler@newt.com>
+
+	Released MH-E version 7.85.
+
+	* README: Updated for release 7.85.
+
+2005-10-14  Bill Wohler  <wohler@newt.com>
+
+	* mh-unit.el (mh-unit): Check for files in ., emacs/lisp/mh-e/,
+	and ../../../.
+
+	* README: Mention that you get CVS MH-E with CVS Emacs. Added CVS
+	MH-E INSTALL section for saying how to use CVS MH-E.
+
+	* Makefile (MH_E_MAINT): Added .cvsignore files which need to be
+	tagged as well.
+
+2005-10-13  Bill Wohler  <wohler@newt.com>
+
+	* release-utils: Untabified.
+	(dist): New variable and function used to create distributions.
+	(tag): New variable and function used to tag files.
+	(import_emacs): Deleted. Obsolete.
+	(get_release): New function used to get the release name from the
+	sticky tag.
+
+	* Makefile: It turns out that using dashes (-) in identifiers is a
+	bad idea. Identifiers with dashes don't work on Windows systems
+	for example. Also, variables with dashes in them that are exported
+	as as environment variables cannot be used in scripts. Thus, use
+	underscores in identifiers instead of dashes.
+	(MH_E_SRC_NONCOMPILED): New variable. Currently holds mh-gnus.el.
+	(MH-E-OTHERS): Deleted. See MH_E_SRC_NONCOMPILED, MH_E_AUTOGEN,
+	and MH_E_ETC.
+	(MH_E_IMG): Many of the files were moved into the mail
+	sub-directory. rescan* was renamed to refresh*.
+	(MH-E-IMG2): Deleted. Moved files into MH_E_IMG and dropped "2" in
+	filename.
+	(MH_E_AUTOGEN): New. Contains MH_E_AUTOLOADS and MH_E_LOADDEFS.
+	(MH-E--ETC): Now contains all non-source including Makefile,
+	README, MH-E-NEWS, and ChangeLogs.
+	(MH_E_MAINT): New. Contains mh-unit.el and release-utils.
+	(MH_E_DIST_NOAUTOGEN): New. All files for distribution not
+	including automatically generated files.
+	(MH_E_DIST): New. All files for distribution.
+	(MH_E_ALL): All MH-E files except for automatically generated
+	files. Suitable for use by cvs tag.
+	(clean): Remove $(MH_E_AUTOGEN) files too.
+	(tag): New target. Tags files in $(MH_E_ALL) with $(TAG). Uses
+	release-utils.
+	(dist): Now uses release-utils.
+
+	* README: Since the directory structure has changed and is
+	expected to be fixed, you can no longer add the lisp files to a
+	directory in your load-path. Now you must add the MH-E directory
+	to your load-path. Renamed mh-e-autoloads.el to mh-autoloads.el.
+	No longer have to make mh-autoloads as it's now included in the
+	distribution.
+
+2005-10-04  Bill Wohler  <wohler@newt.com>
+
+	* MH-E-NEWS, alias.pbm, alias.xpm, execute.pbm, execute.xpm:
+	* highlight.pbm, highlight.xpm, mh-acros.el, mh-alias.el:
+	* mh-comp.el, mh-customize.el, mh-e.el, mh-funcs.el:
+	* mh-gnus.el, mh-identity.el, mh-inc.el, mh-index.el:
+	* mh-init.el, mh-junk.el, mh-logo.xpm, mh-mime.el:
+	* mh-pick.el, mh-print.el, mh-seq.el, mh-speed.el:
+	* mh-utils.el, page-down.pbm, page-down.xpm, refile.pbm:
+	* refile.xpm, repack.pbm, repack.xpm, reply-all.pbm:
+	* reply-all.xpm, reply-from.pbm, reply-from.xpm, reply-to.pbm:
+	* reply-to.xpm, rescan.pbm, rescan.xpm, show.pbm:
+	* show.xpm, widen.pbm, widen.xpm, mail/reply2.pbm:
+	* mail/reply2.xpm: Moved into the Attic since these are now served
+	by the Emacs repository.
+
+	* ChangeLog: Moved contents into ChangeLog.1 and trimmed.
+
+	* ChangeLog.1: New file. Contains old ChangeLog.
+
+	* Makefile: Added rules to check out MH-E from Emacs repository.
+	(MH-E-AUTOLOADS): Renamed file from mh-e-autoloads.el to
+	mh-autoloads.el to be consistent with other file names.
+
+
+  Copyright (C) 2005, 2011-2013 Free Software Foundation, Inc.
+
+  Copying and distribution of this file, with or without modification,
+  are permitted in any medium without royalty provided the copyright
+  notice and this notice are preserved.
