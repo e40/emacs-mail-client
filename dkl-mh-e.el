@@ -29,8 +29,12 @@
 (dkl:safe-require 'mh-utils) ;; make sure mh-folder-completion-map is defined
 (dkl:safe-require 'mh-thread)
 
-(dkl:byte-compile-file (format "%s/dkl-mh-e-fixes.el" *my-elib*) t)
-(dkl:byte-compile-file (format "%s/dkl-mh-mailfilter.el" *my-elib*) t)
+(dkl:byte-compile-file (format "%sdkl-mh-e-fixes.el"
+			       (file-name-directory load-file-name))
+		       t)
+(dkl:byte-compile-file (format "%sdkl-mh-mailfilter.el"
+			       (file-name-directory load-file-name))
+		       t)
 
 ;;;(when (file-exists-p "/usr/bin/mh")
 ;;;  (custom-set-variables
