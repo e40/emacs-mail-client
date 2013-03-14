@@ -9,7 +9,8 @@
 ;;;(require 'gnus-load)
 
 (push
- (expand-file-name "~/src/emacs/mh-e-8.5/emacs/trunk/lisp/mh-e/")
+ (format "%smh-e-8.5/emacs/trunk/lisp/mh-e/"
+	 (file-name-directory load-file-name))
  load-path)
 
 (dkl:safe-load "message")

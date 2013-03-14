@@ -4,6 +4,8 @@ This repo contains my hacks to read email in GNU Emacs.
 
 The first question is: why?  The short answer: I'm much more
 productive with this system than anything I've seen other people use.
+That doesn't mean there isn't something out there more powerful, but I
+just haven't seen it.
 
 The long answer:
 
@@ -20,16 +22,20 @@ Common Lisp company, I wanted a CL version of the Perl filter.  So,
 Ahmon Dancy wrote the CL version of the Perl script, and
 **mailfilter** was born.  The CL version uses rules in Common Lisp,
 obviously, and that was nice for me because it had the power of CL
-(macros and more).
+(macros and more).  Look at *mailfilter.cl* in the repo to see what
+the rules look like.  This is the actual rules I use for my personal
+email.  The ones for work are a lot more complex, but contain things
+which I don't want to make public.
 
 I used the system in this state for another 15 years, when I really
 needed something better to manage the large number of balls I was
-keeping in the air.  The problem was: my **+inbox** tended to grow
-large over time and I'd lose track of all the messages in my various
-other inboxes.
+keeping in the air.  The problem: my **+inbox** tended to grow large
+over time and I'd lose track of all the messages in my various other
+inboxes.  Not only that, I would periodically have to spend several
+hours cleaning up my **+inbox**.  It was really painful.
 
 The first thing I did was write an Emacs mode for looking at the
-inboxes.  Instead of looking at my **inbox**, I could look at a
+inboxes.  Instead of looking at my **+inbox**, I could look at a
 summary of my inboxes:
 
     +inbox            1 new                 170 old  
@@ -64,24 +70,31 @@ summary of my inboxes:
 A single key would *go into* a folder and I could process those new,
 unread or old emails.
 
-The new problem: it was hard to move messages to various inboxes
-because new email on those conversations kept coming back to my
-**+inbox**.   So, I wrote support to *move conversations* to a folder
-so that new emails would automatically show up there.
+Notice I said *could* above.  The problem was, I didn't make it the
+default mode.  It was a big step moving to making the *inboxes mode*
+the default, but it was an important one.
+
+Once I started using the *inboxes mode*, I ran into another problem:
+it was hard to move messages to various inboxes because new email on
+those conversations kept coming back to my **+inbox**.  So, I wrote
+support to *move conversations* to a folder so that new emails would
+automatically show up there.
 
 Lastly, some time before this I had written an MH-E hack that would
 allow me to highlight messages.  I could mark them as *important* and
 they would be highlighted in yellow in whatever folder they were in.
-I used nmh sequences for this, but, unfortunately, when a message was
-refiled from one folder to another, the sequence information was lost.
-The *nmh-workers* mailing list to the rescue, and I was able to write
-a *refile hook* to take care of that problem.
+I used nmh sequences for this, but, unfortunately, when a message is
+refiled from one folder to another, the sequence information is lost.
+The *nmh-workers* mailing list was helpful in finding a solution:
+a *refile hook* to make sure the newly moved message was in the same
+sequence.
 
 ## Dependencies
 
-First, this doesn't work on Windows.  I've tested it on Fedora
-(currently on F17).  It will likely work on CentOS, RHEL, Ubuntu, and
-many other flavors of UNIX.
+First, this doesn't work on Windows.  I've tested it on many versions
+of Fedora up to version 17.  It will very likely work on CentOS, RHEL,
+Ubuntu, and many other flavors of UNIX.  The software originally ran
+on Solaris.
 
 This repo depends on these parts:
 
@@ -96,6 +109,8 @@ This repo depends on these parts:
 The rest is included in this repo.
 
 ## Installation
+
+### MH/nmh
 
 I won't talk about nmh installation.  Get that installed and come back
 here.
@@ -113,8 +128,42 @@ Of course, use the actual path to your repo.
 
 ### $HOME/.mailfilter.cl
 
-To be completed
+Create your own from what's in this repo.  You can see what I have in
+mine.  Start out simple and grow it.
 
 ### GNU Emacs
 
-To be completed
+First, you need to load `dkl-boot.el`.  This contains a bunch of
+functions which are later used.  This is how I load it from my
+`~/.emacs`:
+
+    (require 'bytecomp)
+    ;; Must load this first because it contains various support functions
+    (let* ((el "~layer/src/emacs/emacs-mail-client/dkl-boot.el")
+	   (elc (byte-compile-dest-file el)))
+      (cond ((file-newer-than-file-p elc el) (load elc))
+	    (t (byte-compile-file el t))))
+
+Then, load `dkl-mh-e.el` from this repo.  I do it this way:
+
+    (load (format "%s/emacs-mail-client/dkl-mh-e.el" *my-elib*))
+
+`*my-elib*` is defined to point to `~/src/emacs/`.  You need to define
+keybindings for the entry point functions, and this is what I do:
+
+    ;; visit a specific inbox:
+    (define-key my-ctl-x-map "a" (when *logged-in-as-layer* 'dkl:mh-scan-inboxes))
+    ;; compose an email:
+    (define-key my-ctl-x-map "c" (when *logged-in-as-layer* 'mh-smail))
+    ;; read email:
+    (define-key my-ctl-x-map "i" (when *logged-in-as-layer* 'dkl:mh-rmail))
+    ;; visit a specific MH/nmh folder:
+    ;;  (I call it with an argument so it asks which MH folder to visit)
+    (define-key my-ctl-x-map "s" (when *logged-in-as-layer*
+                                   (lambda ()
+                                     (interactive)
+         			     (mh-rmail 1))))
+
+`*logged-in-as-layer*` allows me to load the same `.emacs` as root or
+another user, and not define mail-reading key bindings.
+
