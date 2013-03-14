@@ -117,7 +117,7 @@ here.
 
 ### $HOME/.mh_profile
 
-You need these additions to your *.mh_profile*:
+You need these additions to your `~/.mh_profile`:
 
     rmmproc: /home/layer/src/emacs/emacs-mail-client/nmh-rmmproc.sh
     send: -msgid
@@ -139,7 +139,8 @@ functions which are later used.  This is how I load it from my
 
     (require 'bytecomp)
     ;; Must load this first because it contains various support functions
-    (let* ((el "~layer/src/emacs/emacs-mail-client/dkl-boot.el")
+    (let* ((el (format "%semacs-mail-client/dkl-boot.el"
+                       (file-name-directory load-file-name)))
            (elc (byte-compile-dest-file el)))
       (cond ((file-newer-than-file-p elc el) (load elc))
             (t (byte-compile-file el t))))
@@ -166,12 +167,13 @@ keybindings for the entry point functions, and this is what I do:
                                 (interactive)
                                 (mh-rmail 1))))
 
-
 In summary:
 
 | Keybinding |  Action                  |
 |:----------:|:-------------------------|
-|C-x a       | visit one of the inboxes |
-|C-x c       | compose an emacs         |
-|C-x i       | read email               |
-|C-x s       | visit a folder           |
+|`C-x a`     | visit one of the inboxes |
+|`C-x c`     | compose an emacs         |
+|`C-x i`     | read email               |
+|`C-x s`     | visit a folder           |
+
+*Inboxes* are defined to be folders named with the prefix `inbox-`.
