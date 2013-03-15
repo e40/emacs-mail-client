@@ -164,14 +164,27 @@ keybindings for the entry point functions, and this is what I do:
                                 (interactive)
                                 (mh-rmail 1))))
 
+    ;; Move conversations with a single binding.  Like
+    ;; mh-thread-refile.
+    (define-key mh-folder-mode-map "\e^" 'dkl:mh-move-conversation)
+
+    ;; Mark messages importand/unimportant:
+    (define-key mh-folder-mode-map "*" 'my-mark-important)
+    (define-key mh-folder-mode-map "_" 'my-mark-unimportant)
+
+The above are the basic key bindings.  
+
 In summary:
 
 | Keybinding | Action                   | Comments                       |
 |:----------:|:-------------------------|:-------------------------------|
-|`C-x a`     | visit one of the inboxes |completing read from minibuffer |
+|`C-x a`     | visit one of the inboxes |folder read from minibuffer     |
 |`C-x c`     | compose a message        |creates a new draft             |
 |`C-x i`     | show `*Inboxes*` buffer  |w/prefix arg, inc to +inbox     |
-|`C-x s`     | visit a folder           |completing read from minibuffer |
+|`C-x s`     | visit a folder           |folder read from minibuffer     |
+|`ESC ^`     | move conversation        |folder read from minibuffer     |
+|`*`         | mark message important   |                                |
+|`_`         | mark message unimportant |                                |
 
 *Inboxes* are defined to be folders named with the prefix `inbox-`.
 You can create an inbox by just refiling a message to it, and creating
