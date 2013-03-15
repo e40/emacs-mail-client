@@ -112,6 +112,23 @@ The rest is included in this repo.
 I won't talk about nmh installation.  Get that installed and come back
 here.
 
+### MH-E
+
+There is included in this repo a copy of MH-E 8.5.  It is unchanged
+from the official release and is included here for convenience.
+
+To compile the `.el` files, open an shell and execute these commands:
+
+    $ cd .../emacs-mail-client
+    $ make
+
+This will use the GNU Emacs binary installed on your system to compile
+the `.el` files to `.elc` files for faster operation.
+
+### mailfilter
+
+[Installation instructions.](https://github.com/franzinc/mailfilter)
+
 ### $HOME/.mh_profile
 
 You need these additions to your `~/.mh_profile`:
