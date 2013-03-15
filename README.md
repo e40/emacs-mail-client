@@ -127,7 +127,7 @@ the `.el` files to `.elc` files for faster operation.
 
 ### mailfilter
 
-[Installation instructions.](https://github.com/franzinc/mailfilter)
+[Installation instructions.](https://github.com/franzinc/mailfilter#readme)
 
 ### $HOME/.mh_profile
 
@@ -138,12 +138,13 @@ You need these additions to your `~/.mh_profile`:
     #: so messages in the `important' sequence stay in it after being moved
     ref-hook: /home/layer/src/emacs/emacs-mail-client/nmh-ref-hook.sh
 
-Of course, use the actual path to your repo.
+Of course, use the actual path to this repo on your system.
 
 ### $HOME/.mailfilter.cl
 
-Create your own from what's in this repo.  You can see what I have in
-mine.  Start out simple and grow it.
+Create your own from what's in this repo.  [You can see what I have in
+mine.](https://raw.github.com/e40/emacs-mail-client/master/mailfilter.cl)
+Start out simple and grow it.
 
 ### GNU Emacs
 

@@ -1,8 +1,14 @@
 
 (in-package :user)
 
+;; Set this to `t' and run `folderfilter -d +inbox' to see which rules fire
+;; for a particular message.
+;;
 (defparameter *ruletest-debug* nil)
 
+;; This variable governs the order of folders in the *Inboxes* buffer, and
+;; allows headers for it to be specified.
+;;
 (defparameter *mailstatus-inbox-folder-order*
     '("x"
       "gmail"
@@ -100,7 +106,6 @@
       (or (to-one-of "cygwin@sourceware.org")
 	  (to-one-of "cygwin@sources.redhat.com")
 	  (to-one-of "cygwin@cygwin.com")))
-    (ruletest 180 "+inbox-mp3" (from-one-of "maillist@allofmp3.com"))
     (ruletest 190 "+inbox-junk"
       (and (to-one-of "git@vger.kernel.org")
 	   (subject-match "\\[[^[]*PATCH")))
