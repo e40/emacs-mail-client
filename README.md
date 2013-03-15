@@ -96,6 +96,7 @@ on Solaris.
 This repo depends on these parts:
 
  * [nmh](http://www.nongnu.org/nmh/) 1.5 :: this is usually provided by the operating system
+ * [mairix](http://www.rpcurnow.force9.co.uk/mairix/) :: Mairix is used for indexing and searching messages
  * [MH-E](http://mh-e.sourceforge.net/) 8.5 :: the Emacs interface to MH/nmh
  * [mailfilter](https://github.com/franzinc/mailfilter) 2.x :: the mail filter that sits on top of MH/nmh
  * [Allegro Common Lisp](http://www.franz.com) :: because *mailfilter*
@@ -133,10 +134,13 @@ the `.el` files to `.elc` files for faster operation.
 
 You need these additions to your `~/.mh_profile`:
 
-    rmmproc: /home/layer/src/emacs/emacs-mail-client/nmh-rmmproc.sh
+    #: Immediately remove items from some folders, moving the rest
+    #: to the +trash folder -- customize to your needs.  See also
+    #: the mh-cleanup.sh script below.
+    rmmproc: /home/layer/src/emacs/emacs-mail-client/mh-rmmproc.sh
     send: -msgid
     #: so messages in the `important' sequence stay in it after being moved
-    ref-hook: /home/layer/src/emacs/emacs-mail-client/nmh-ref-hook.sh
+    ref-hook: /home/layer/src/emacs/emacs-mail-client/mh-ref-hook.sh
 
 Of course, use the actual path to this repo on your system.
 
@@ -209,3 +213,15 @@ You can create an inbox by just refiling a message to it, and creating
 it in the process, or having `incfilter` create the message there.
 (Will `incfilter` create a folder or does it need to already exist?)
 
+### Indexing email with Mairix
+
+configuring
+cron job
+
+    # Mairix is fast, so index once an hour
+    0 * * * * cd mail; ./index.sh
+
+### cleaning up
+
+    # cleanup mail at 4:01am
+    1 4 * * * cd mail; ./cleanup

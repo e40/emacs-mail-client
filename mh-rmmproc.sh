@@ -6,9 +6,12 @@
 fromfolder="`folder -fast`"
 
 case "$fromfolder" in
-inbox-spam|inbox-junk|inbox-git|trash)
+    inbox-junk|inbox-git|trash)
 	rm -f $*
 	;;
-*)	refile -normmproc -src +$fromfolder +trash $*
+    inbox-spam)
+	refile -normmproc -src +$fromfolder +spam $*
+	;;
+    *)	refile -normmproc -src +$fromfolder +trash $*
 	;;
 esac
