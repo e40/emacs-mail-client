@@ -224,4 +224,4 @@ cron job
 ### cleaning up
 
     # cleanup mail at 4:01am
-    1 4 * * * cd mail; ./cleanup
+    1 4 * * * cd mail; ./mh-cleanup.sh

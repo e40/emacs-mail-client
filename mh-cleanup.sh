@@ -48,4 +48,7 @@ echo ""
 echo running index.sh script...
 ./index.sh
 
+echo cleaning old conversations...
+mailstatus -cleanup
+
 exit 0
