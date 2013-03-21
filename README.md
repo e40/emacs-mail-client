@@ -42,7 +42,7 @@ summary of my inboxes:
 
     ; *********** TODO inboxes ********************
     +inbox-q                                 35 old  
-    +inbox-fin                               41 old  
+    +inbox-fin                               41 old  *****
     +inbox-todo                              37 old  
     +inbox-sa                                47 old  
     +inbox-pbx                               11 old  
@@ -190,7 +190,10 @@ keybindings for the entry point functions, and this is what I do:
     ;; mh-thread-refile.
     (define-key mh-folder-mode-map "\e^" 'dkl:mh-move-conversation)
 
-    ;; Mark messages importand/unimportant:
+    ;; Mark messages importand/unimportant.  Important messages are
+    ;; highlighted in a diffent color from other messages and folders
+    ;; which contain important messages get a "*****" in the right
+    ;; margin of the mailstatus program output.
     (define-key mh-folder-mode-map "*" 'my-mark-important)
     (define-key mh-folder-mode-map "_" 'my-mark-unimportant)
 
