@@ -59,21 +59,68 @@
 						 msg-list)
 	   (mh-thread-refile to-folder)))))
 
+(defvar dkl:mh-mailfilter-directory
+    (expand-file-name "~/.mailfilter.d/"))
+
+(defvar dkl:mh-mailfilter-conversations-file
+    (format "%sconversations.el" dkl:mh-mailfilter-directory))
+
+(defvar dkl:mh-mailfilter-conversations-lock-file
+    (format "%sconversations.el.lock" dkl:mh-mailfilter-directory))
+
+(defun dkl:lock-file (file lock-file seconds)
+  ;; make a hard link copy of FILE to LOCK-FILE, waiting SECONDS seconds
+  ;; for the LOCK-FILE to not exist, then signal an error.
+  (let ((n seconds))
+    (while (and (file-exists-p lock-file)
+		(> n 0))
+      (message "waiting[%d] for %s..." n lock-file)
+      (sit-for 1)
+      (setq n (- n 1)))
+    (when (file-exists-p lock-file)
+      (error "Timed out waiting for %s" lock-file)))
+  ;; This will error if someone grabbed the lock after we checked for it:
+  (add-name-to-file file lock-file))
+
 (defun dkl:mh-note-moved-conversation-thread (from-folder to-folder msg-list)
   ;; conversation data is: subject and bhid.  Signal an error if neither
   ;; are available. In the future, I'll add all Message-Id's.
-
   (let ((conversation-data
-	 (dkl:mh-thread-conversation-data from-folder to-folder msg-list)))
-    (when conversation-data
-      (let* ((dir "~/.mailfilter.d/")
-	     (file (format "%s/conversations.el" dir)))
-	(when (not (file-directory-p dir))
-	  (make-directory dir t))
-	(with-temp-buffer ()
-	  (princ conversation-data (current-buffer))
-	  (goto-char (point-max))
-	  (append-to-file (point-min) (point-max) file))))))
+	 (dkl:mh-thread-conversation-data from-folder to-folder msg-list))
+	(data-loss-danger nil)
+	(ok nil))
+    (unwind-protect
+	(progn
+	  (dkl:lock-file dkl:mh-mailfilter-conversations-file
+			 dkl:mh-mailfilter-conversations-lock-file
+			 5)
+	  (when conversation-data
+	    (when (not (file-directory-p dkl:mh-mailfilter-directory))
+	      (make-directory dkl:mh-mailfilter-directory t))
+	    (with-temp-buffer ()
+	      (princ conversation-data (current-buffer))
+	      (goto-char (point-max))
+	      (append-to-file (point-min) (point-max)
+			      dkl:mh-mailfilter-conversations-lock-file))
+	    (setq data-loss-danger t)
+	    (delete-file dkl:mh-mailfilter-conversations-file)
+	    (rename-file dkl:mh-mailfilter-conversations-lock-file
+			 dkl:mh-mailfilter-conversations-file)
+	    (setq ok t)))
+      (when (not ok)
+	;; an error somewhere in the protected form.... be more careful
+	;; when data-loss-danger is non-nil!
+	(cond
+	 (data-loss-danger
+	  (message
+	   "DANGER: conversations file is in jeopardy!  Check these:\n%s\n%s"
+	   dkl:mh-mailfilter-conversations-file
+	   dkl:mh-mailfilter-conversations-lock-file))
+	 (t
+	  ;; likely the append-to-file failed due to a full filesystem, so
+	  ;; just remove the lock file and go home
+	  (delete-file dkl:mh-mailfilter-conversations-lock-file)
+	  (message "Conversation not saved!")))))))
 
 (defun dkl:mh-current-thread-to-msg-list ()
   (let ((region (save-excursion (mh-thread-find-children)))
