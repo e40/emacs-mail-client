@@ -50,6 +50,9 @@
 (defun dkl:mh-move-conversation (to-folder)
   "Refile the conversation in the current thread into TO-FOLDER."
   (interactive (list (intern (mh-prompt-for-refile-folder))))
+  (when (not (string-match "^\\+inbox" (symbol-name to-folder)))
+    (error "You can only move a conversation to an +inbox folder, not %s."
+	   to-folder))
   (cond ((not (memq 'unthread mh-view-ops)) (error "Folder isn't threaded"))
         ((eobp) (error "No message at point"))
         (t
