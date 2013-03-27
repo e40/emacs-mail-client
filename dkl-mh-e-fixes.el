@@ -172,6 +172,16 @@ automatically."
 ;; From Ted Phelps <phelps@gnusto.com>
 ;; Patches to gnus/shr.el for mail display
 
+;; The fix defines shr-make-overlay and isn't in the gnus that is included
+;; in 24.3 (released after the fix was put into gnus, btw).
+(when (and (not (fboundp 'shr-make-overlay))
+	   (= 24 emacs-major-version)
+	   (< 3 emacs-minor-version))
+
+;; Make sure the module we are patching is loaded.
+(when (not (fboundp 'shr-add-font))
+  (error "gnus/shr is not loaded.  Internal error."))
+
 (defun shr-make-overlay (beg end &optional buffer front-advance rear-advance)
   (let ((overlay (make-overlay beg end buffer front-advance rear-advance)))
     (overlay-put overlay 'evaporate t)
@@ -339,3 +349,5 @@ automatically."
 		  (shr-collect-overlays)
 		  (car actual-colors))
 	  max)))))
+
+)
