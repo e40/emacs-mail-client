@@ -49,6 +49,6 @@ echo running index.sh script...
 ./index.sh
 
 echo cleaning old conversations...
-mailstatus -cleanup
+/usr/fi/mailstatus -cleanup
 
 exit 0
