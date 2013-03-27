@@ -1,5 +1,5 @@
 
-;; Redefine mh-unvisit-file so that it doesn't automatically discard
+;; Redefine mh-unvisit-file so that it automatically discard
 ;; changes.  The reason we need this: something in MH-E is modifying the
 ;; buffer when they consist of certain types of HTML messages.
 
