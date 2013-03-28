@@ -172,11 +172,14 @@ automatically."
 ;; From Ted Phelps <phelps@gnusto.com>
 ;; Patches to gnus/shr.el for mail display
 
+(require 'gnus)
+(require 'shr)
+
 ;; The fix defines shr-make-overlay and isn't in the gnus that is included
 ;; in 24.3 (released after the fix was put into gnus, btw).
 (when (and (not (fboundp 'shr-make-overlay))
 	   (= 24 emacs-major-version)
-	   (< 3 emacs-minor-version))
+	   (<= 3 emacs-minor-version))
 
 ;; Make sure the module we are patching is loaded.
 (when (not (fboundp 'shr-add-font))
