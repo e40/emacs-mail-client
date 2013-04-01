@@ -179,7 +179,7 @@ automatically."
 ;; in 24.3 (released after the fix was put into gnus, btw).
 (when (and (not (fboundp 'shr-make-overlay))
 	   (= 24 emacs-major-version)
-	   (<= 3 emacs-minor-version))
+	   (<= emacs-minor-version 3))
 
 ;; Make sure the module we are patching is loaded.
 (when (not (fboundp 'shr-add-font))
