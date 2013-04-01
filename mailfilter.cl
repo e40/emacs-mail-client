@@ -36,6 +36,7 @@
 
       :newline
       (:header "*********** Mailing list inboxes ************")
+      "zfs"
       "emacs"
       "git"
       "blink"
@@ -106,6 +107,7 @@
       (or (to-one-of "cygwin@sourceware.org")
 	  (to-one-of "cygwin@sources.redhat.com")
 	  (to-one-of "cygwin@cygwin.com")))
+    (ruletest 180 "+inbox-zfs" (to-one-of "zfs@noreply.github.com"))
     (ruletest 190 "+inbox-junk"
       (and (to-one-of "git@vger.kernel.org")
 	   (subject-match "\\[[^[]*PATCH")))
