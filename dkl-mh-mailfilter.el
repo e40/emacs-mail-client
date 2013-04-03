@@ -19,7 +19,8 @@
 	  nil
 	  t
 	  nil)))
-    (let ((maildrop (or (getenv "MAILDROP") "/usr/spool/mail/layer")))
+    (let ((maildrop (or (getenv "MAILDROP")
+			(error "MAILDROP not defined in environment."))))
       (when (and (file-exists-p maildrop)
 		 (> (or
 		     ;; avoid file-size, because it reads the file!!

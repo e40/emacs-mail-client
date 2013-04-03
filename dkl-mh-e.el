@@ -1,11 +1,8 @@
 
 ;; Add one of these to ~/.emacs
+;;    See mh-identity-list setting below
 ;;;(custom-set-variables '(mh-identity-default "Home"))
 ;;;(custom-set-variables '(mh-identity-default "Work"))
-
-;;;(setq load-path
-;;;  (cons (expand-file-name "~layer/src/emacs/gnus.git/lisp/") load-path))
-;;;(require 'gnus-load)
 
 (push
  (format "%smh-e-8.5/emacs/trunk/lisp/mh-e/"
@@ -54,25 +51,26 @@
    ;;nil ;; external viewer (default web browser)
    
    'shr ;; gnus, broken in 24.[12] w/o patch, sometimes hang w/patch
+
+;;;; See mh-identity-default setting above
+;;;   '(mh-identity-list
+;;;     ;; ~/.emacs sets mh-identity-default to one of these:
+;;;     (quote (("Home" (("From" . "Your Name <username@home>")
+;;;		      ("Fcc" . "+outbox")))
+;;;	     ("Work" (("From" . "Your Name <username@work>")
+;;;		      ("Fcc" . "+outbox"))))))
    )
 
- '(mh-identity-list
-   ;; ~/.emacs sets mh-identity-default to one of these:
-   (quote (("Home" (("From" . "Kevin Layer <layer@known.net>")
-		    ("Fcc" . "+outbox")))
-	   ("Work" (("From" . "Kevin Layer <layer@franz.com>")
-		    ;;("Organization" . "Franz, Inc.")
-		    ("Fcc" . "+outbox"))))))
+ 
  '(mm-attachment-file-modes 420)	; mode 644 not 600!
  (list 'mh-inc-prog
        (cond ((file-exists-p "/usr/local/incfilter") "/usr/local/incfilter")
 	     ((file-exists-p "/usr/fi/incfilter") "/usr/fi/incfilter")
 	     (t "incfilter")))
  (list 'mh-alias-local-users
-       (if (at-work-on-unix-p)
-	   "ypcat passwd"
-	 ;; use /etc/passwd:
-	 t))
+       ;; "ypcat passwd"
+       ;; use /etc/passwd:
+       t)
  '(mh-invisible-header-fields-default
    ;; mh has a built-in list (mh-invisible-header-fields-internal) of
    ;; headers that it will not show.  Entries in
