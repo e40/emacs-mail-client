@@ -86,10 +86,10 @@
 	  (to-one-of "gmail@known.net")
 	  (to-one-of "layer-phone@franz.com")))
     
-    (let ((dest-folder (message-in-conversation-p subject bhid)))
+    (let ((dest-folder (and subject
+			    (message-in-conversation-p subject bhid))))
       #+ignore ;; debugging
-      (format t "~d: conversation ~a ~a~%   => ~s~%"
-	      msg-number
+      (format t "conversation ~a ~a~%   => ~s~%"
 	      subject bhid
 	      dest-folder)
       (when dest-folder
@@ -107,7 +107,9 @@
       (or (to-one-of "cygwin@sourceware.org")
 	  (to-one-of "cygwin@sources.redhat.com")
 	  (to-one-of "cygwin@cygwin.com")))
-    (ruletest 180 "+inbox-zfs" (to-one-of "zfs@noreply.github.com"))
+    (ruletest 180 "+inbox-zfs"
+      (or (to-one-of "zfs-discuss@zfsonlinux.org")
+	  (to-one-of "zfs@noreply.github.com")))
     (ruletest 190 "+inbox-junk"
       (and (to-one-of "git@vger.kernel.org")
 	   (subject-match "\\[[^[]*PATCH")))

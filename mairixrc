@@ -4,7 +4,7 @@ base=/home/layer/mail
 # List of folders that should be indexed. 3 dots at the end means there
 # are subfolders within the folder
 mh=*
-omit=inbox-spam:inbox-junk:trash:mhe-index:.mairix
+omit=inbox-spam:inbox-junk:trash:spam:mhe-index:.mairix
 
 vfolder_format=raw
 database=/home/layer/.mairix/database
