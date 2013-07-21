@@ -10,8 +10,7 @@
 ;; allows headers for it to be specified.
 ;;
 (defparameter *mailstatus-inbox-folder-order*
-    '("x"
-      "gmail"
+    '("gmail"
       "spam"
       "junk"
 
@@ -19,11 +18,14 @@
       (:header "*********** TODO inboxes ********************")
       "a"
       "q"
+      "home"
+      "tget"
       "fin"
       "todo"
       "sa"
       "pbx"
       "adrian"
+      "medical"
       "someday"
       "pend"
 
