@@ -184,11 +184,10 @@
 
 ;;;;;;;;;
 
-(defface my-scan-line-highlight '((t
-			      ;;; one of these:
-				   (:background "yellow")
-				   ;;(:foreground "DarkGreen")
-				   ))
+(defface my-scan-line-highlight '((t (:background "yellow")))
+  "The face I use to highlight scan lines in MH-E."
+  :group 'my-faces)
+(defface my-scan-line-highlight-maybe-spam '((t (:background "cyan")))
   "The face I use to highlight scan lines in MH-E."
   :group 'my-faces)
 
@@ -202,8 +201,11 @@
 
 (defun my-highlight-by-header (folder range)
   (condition-case ()
-      (my-highlight-by-header-1
-       folder range "highlight" 'my-scan-line-highlight)
+      (progn
+	(my-highlight-by-header-1
+	 folder range "highlight" 'my-scan-line-highlight)
+	(my-highlight-by-header-1
+	 folder range "maybe-spam" 'my-scan-line-highlight-maybe-spam))
     (error nil)))
 
 (defun my-highlight-by-header-1 (folder range header face)
