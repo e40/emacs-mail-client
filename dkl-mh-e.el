@@ -388,8 +388,39 @@ Do not insert any pairs whose value is the empty string."
                (insert field-name " " value "\n")))
         (setq name-values (cdr (cdr name-values)))))))
 
+(defun my-mh-letter-mode-hook-function3 ()
+  (let* ((map mh-letter-mode-map)
+	 (seq "\C-c\C-ff")
+	 (seq2 "\C-c\C-f\C-f")
+	 (f (lookup-key map seq)))
+    (when (not (assoc (char-to-string (logior ?\C-z ?`))
+		      mh-to-field-choices))
+      (push '("z" . "Filter:") mh-to-field-choices))
+    (when (eq 'mh-to-fcc f)
+      (define-key map seq  'my-mh-to-fcc)
+      (define-key map seq2 'my-mh-to-fcc))))
+
+(defun my-mh-to-fcc (&optional folder)
+  (interactive (list (mh-prompt-for-folder
+                      "Fcc"
+                      (or (and mh-default-folder-for-message-function
+                               (save-excursion
+                                 (goto-char (point-min))
+                                 (funcall
+                                  mh-default-folder-for-message-function)))
+                          "")
+                      t)))
+  (let ((last-input-event (if current-prefix-arg ?\C-z ?\C-f)))
+    (expand-abbrev)
+    (save-excursion
+      (mh-to-field)
+      (insert (if (mh-folder-name-p folder)
+                  (substring folder 1)
+                folder)))))
+
 (add-hook 'mh-letter-mode-hook 'my-mh-letter-mode-hook-function0)
 (add-hook 'mh-letter-mode-hook 'my-mh-letter-mode-hook-function2)
+(add-hook 'mh-letter-mode-hook 'my-mh-letter-mode-hook-function3)
 
 (condition-case ()
     (mh-find-path)
