@@ -206,6 +206,7 @@
      (dkl:probe-file "/usr/local/mailstatus")))
 
 (defconst dkl:mh-inbox-summary-buffer "*Inboxes*")
+(defconst dkl:mh-inbox-summary-scan-buffer "*Inboxes-scan*")
 ;;(defconst dkl:mh-inbox-summary-temp-buffer " *TEMP Inboxes*")
 
 (defvar dkl:mh-inbox-summary-inc-status nil
@@ -233,11 +234,35 @@
   (message "Checking folder status...done.")
   (dkl:mh-inbox-summary-mode))
 
+(defun dkl:mh-inbox-summary-scan ()
+  (interactive)
+  (setq dkl:mh-inbox-summary-inc-status nil)
+  (switch-to-buffer (get-buffer-create dkl:mh-inbox-summary-scan-buffer))
+  (delete-other-windows (get-buffer-window dkl:mh-inbox-summary-scan-buffer))
+  (setq buffer-read-only nil)
+  (let ((line-number (line-number-at-pos)))
+    (erase-buffer)
+    (message "Checking folder status...")
+    (call-process dkl:*mailstatus-program*
+		  nil			; infile
+		  t			; current buffer
+		  nil			; don't redisplay as output
+		  "-L" "10")
+    ;; (goto-line line-number) in a program:
+    (goto-char (point-min))
+    (forward-line (1- line-number)))
+  (message "Checking folder status...done.")
+  (setq truncate-lines t)
+  (setq buffer-read-only t)
+  ;;(dkl:mh-inbox-summary-mode)
+  )
+
 (defvar dkl:my-inbox-summary-mode-map (make-keymap))
 
 (define-key dkl:my-inbox-summary-mode-map "." 'dkl:mh-inbox-summary-goto)
 (define-key dkl:my-inbox-summary-mode-map "f" 'dkl:mh-inbox-summary-goto)
 (define-key dkl:my-inbox-summary-mode-map "g" 'dkl:mh-inbox-summary)
+(define-key dkl:my-inbox-summary-mode-map "s" 'dkl:mh-inbox-summary-scan)
 
 (define-derived-mode dkl:mh-inbox-summary-mode text-mode "MH-Inboxes"
   (buffer-disable-undo)
