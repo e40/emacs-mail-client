@@ -2,13 +2,15 @@
 #
 # Clean up various folders, making sure they don't get too big.
 
+set -eu
+
 if test -f cleanup.lock; then
     echo cleanup.lock exists.  Exiting...
     exit 0
 fi
 
 trap "folder +inbox; rm -f cleanup.lock" 0 1 2 3 14 15
-date > cleanup.lock
+echo $(date) $(hostname) $$ > cleanup.lock
 
 function nmessages() {
     local output=$(folder $1)
@@ -47,10 +49,22 @@ function clean_folder() {
 	    rmm $folder first:$m
 	fi
 
-	folder $folder -pack
+	# On Sunday, pack the folder
+	if [ "$(date +%u)" -eq 0 ]; then
+	    echo Packing $folder...
+	    folder $folder -pack
+	fi
     fi
     echo ""
 }
+
+# No reason to keep this around:
+rm -fr mhe-index
+mkdir mhe-index
+
+for file in $(find . -type f -size 0c -print); do
+    echo '*****************' ZERO LENGTH FILE: $file
+done
 
 #            folder  max messages
 clean_folder +spam   9999
@@ -58,7 +72,7 @@ clean_folder +trash  9999
 clean_folder +outbox 9999
 
 echo remove garbage...
-find . -name '#*' -print | xargs rm -f
+find . -name '#*' -print | xargs /bin/rm -f
 echo ""
 
 echo running index.sh script...
@@ -67,4 +81,9 @@ echo running index.sh script...
 echo cleaning old conversations...
 /usr/fi/mailstatus -cleanup
 
-exit 0
+local=mh-cleanup-local.sh
+
+if [ -f $local ]; then
+    echo running $local...
+    ./$local
+fi
