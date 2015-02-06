@@ -15,7 +15,7 @@
 		     (string-match "^inbox-\\(.*\\)$" inbox)
 		     (list (substring inbox (match-beginning 1)
 				      (match-end 1)))))
-		  (directory-files "~/mail" nil "^inbox-.*"))
+		  (directory-files mh-user-path nil "^inbox-.*"))
 	  nil
 	  t
 	  nil)))
