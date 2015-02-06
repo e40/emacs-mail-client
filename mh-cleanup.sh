@@ -33,13 +33,14 @@ clean_folder()
 	echo "removing first $m messages from $folder"
 	rmm $folder first:$m
     fi
+    folder $folder -pack
     echo ""
 }
 
 #            folder  max messages
-clean_folder +spam   20000
-clean_folder +trash  15000
-clean_folder +outbox 10000
+clean_folder +spam   9999
+clean_folder +trash  9999
+clean_folder +outbox 9999
 
 echo remove garbage...
 find . -name '#*' -print | xargs rm -f

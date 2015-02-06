@@ -84,12 +84,10 @@
     (ruletest 50  "+inbox-spam" (string= spam-flag "YES"))
     
     (ruletest 60 "+inbox-gmail"
-      (or (to-one-of "kevin.layer.*@gmail.com")
-	  (to-one-of "gmail@known.net")
-	  (to-one-of "layer-phone@franz.com")))
+      (or (to-one-of "someone.*@gmail.com")
+	  (to-one-of "someoneelse.*@gmail.com")))
     
-    (let ((dest-folder (and subject
-			    (message-in-conversation-p subject bhid))))
+    (let ((dest-folder (and subject (message-in-conversation-p subject bhid))))
       #+ignore ;; debugging
       (format t "conversation ~a ~a~%   => ~s~%"
 	      subject bhid
