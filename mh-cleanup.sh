@@ -10,9 +10,8 @@ fi
 trap "folder +inbox; rm -f cleanup.lock" 0 1 2 3 14 15
 date > cleanup.lock
 
-nmessages()
-{
-    output=$(folder $1)
+function nmessages() {
+    local output=$(folder $1)
     if echo $output | grep -q "has no messages"; then
 	echo 0
     else
@@ -20,20 +19,36 @@ nmessages()
     fi
 }
 
-clean_folder()
-{
-    folder=$1
-    max=$2
+function min {
+    echo $(( $1>$2 ? $2 : $1 ))
+}
 
-    n=`nmessages $folder`
+maxrm=998
+
+function clean_folder() {
+    # remove messages from folder ($1) until their number is $2
+    # and never remove more than 998 at a time (the max for nmh).
+    local folder=$1
+    local max=$2
+    local n=`nmessages $folder`
 
     echo $folder has $n messages
+
     if [ "$n" -gt "$max" ]; then
 	m=$(($n - $max))
 	echo "removing first $m messages from $folder"
-	rmm $folder first:$m
+
+	if [ "$m" -gt "$maxrm" ]; then
+	    while [ "$m" -gt 0 ]; do
+		rmm $folder first:$(min $m $maxrm)
+		m=$(( $m - $maxrm ))
+	    done
+	else
+	    rmm $folder first:$m
+	fi
+
+	folder $folder -pack
     fi
-    folder $folder -pack
     echo ""
 }
 
