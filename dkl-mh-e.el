@@ -49,8 +49,9 @@
    ;;'lynx ;; OK, no pics, no links, fast
    ;;'html2text -- unusable
    ;;nil ;; external viewer (default web browser)
-   
-   'shr ;; gnus, broken in 24.[12] w/o patch, sometimes hang w/patch
+
+   'gnus-w3m ;; supposed to work better, but doesn't work for me
+   ;;'shr ;; gnus, broken in 24.[12] w/o patch, sometimes hang w/patch
 
 ;;;; See mh-identity-default setting above
 ;;;   '(mh-identity-list
@@ -139,7 +140,9 @@
       (goto-char (point-min))
       (while (search-forward (char-to-string 160) nil t)
 	(replace-match " " nil t))
-      (when was-read-only (toggle-read-only 1)))))
+      (when was-read-only (toggle-read-only 1))
+      (setq truncate-lines t)
+      )))
 
 (add-hook 'mh-show-mode-hook 'my-mh-show-mode-hook)
 
