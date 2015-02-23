@@ -50,8 +50,10 @@
    ;;'html2text -- unusable
    ;;nil ;; external viewer (default web browser)
 
-   'gnus-w3m ;; supposed to work better, but doesn't work for me
-   ;;'shr ;; gnus, broken in 24.[12] w/o patch, sometimes hang w/patch
+   ;;'shr ;; this is runner up to gnus-w3m, but it's sometimes SLOW
+
+   ;; With GNU Emacs 24.4 this works best:
+   'gnus-w3m
 
 ;;;; See mh-identity-default setting above
 ;;;   '(mh-identity-list
