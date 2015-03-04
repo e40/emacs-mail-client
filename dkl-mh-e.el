@@ -117,6 +117,11 @@
 
 (defun my-mh-compose-letter-function (to subject cc)
   ;; automatically fix bh header when report id in subject
+  ;; Fcc to the source folder, too!  Idea from Ahmon.
+  (when mh-sent-from-folder
+    (when (and mh-annotate-field
+	       (string= mh-annotate-field "Replied:"))
+      (my-mh-insert-fields "Fcc:" mh-sent-from-folder)))
   (when (and (fboundp 'bh=field-value)
 	     (or subject
 		 ;; When we do mh-edit-again, subject is nil, but it exists
@@ -131,7 +136,9 @@
   
   (save-excursion
     (goto-char (point-min))
-    (replace-string (char-to-string 160) " ")))
+    (replace-string (char-to-string 160) " "))
+  
+  (goto-char (point-max)))
 
 (add-hook 'mh-compose-letter-function 'my-mh-compose-letter-function)
 
