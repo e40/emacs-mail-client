@@ -214,8 +214,11 @@
   )
 (make-variable-buffer-local 'dkl:mh-inbox-summary-inc-status)
 
+(defvar dkl::mh-inbox-summary-window-config nil)
+
 (defun dkl:mh-inbox-summary ()
   (interactive)
+  (setq dkl::mh-inbox-summary-window-config (current-window-configuration))
   (setq dkl:mh-inbox-summary-inc-status nil)
   (switch-to-buffer (get-buffer-create dkl:mh-inbox-summary-buffer))
   (delete-other-windows (get-buffer-window dkl:mh-inbox-summary-buffer))
@@ -263,6 +266,7 @@
 (define-key dkl:my-inbox-summary-mode-map "f" 'dkl:mh-inbox-summary-goto)
 (define-key dkl:my-inbox-summary-mode-map "g" 'dkl:mh-inbox-summary)
 (define-key dkl:my-inbox-summary-mode-map "s" 'dkl:mh-inbox-summary-scan)
+(define-key dkl:my-inbox-summary-mode-map "q" 'dkl:mh-inbox-summary-quit)
 
 (define-derived-mode dkl:mh-inbox-summary-mode text-mode "MH-Inboxes"
   (buffer-disable-undo)
@@ -286,6 +290,12 @@
 	(setq dkl:mh-inbox-summary-inc-status t))
       
       (mh-visit-folder folder)))
+
+(defun dkl:mh-inbox-summary-quit ()
+  (interactive)
+  (when dkl::mh-inbox-summary-window-config
+    (set-window-configuration dkl::mh-inbox-summary-window-config)
+    (setq dkl::mh-inbox-summary-window-config nil)))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
