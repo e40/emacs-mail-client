@@ -440,10 +440,13 @@ Do not insert any pairs whose value is the empty string."
 (defun dkl:mh-fcc-from-folder ()
   (interactive)
   (save-excursion
-    (when mh-sent-from-folder
-      (when (and mh-annotate-field
-		 (string= mh-annotate-field "Replied:"))
-	(my-mh-insert-fields "Fcc:" mh-sent-from-folder)))))
+    (cond
+     ((and mh-sent-from-folder
+;;;; Since it's manual, don't be so restrictive:
+	   ;;mh-annotate-field (string= mh-annotate-field "Replied:")
+	   )
+      (my-mh-insert-fields "Fcc:" mh-sent-from-folder))
+     (t (my-mh-insert-fields "Fcc:" "inbox")))))
 
 (condition-case ()
     (mh-find-path)
