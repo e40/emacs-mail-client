@@ -118,7 +118,11 @@
 (defun my-mh-compose-letter-function (to subject cc)
   ;; automatically fix bh header when report id in subject
   ;; Fcc to the source folder, too!  Idea from Ahmon.
-  (when mh-sent-from-folder
+  (when (and
+	 ;; DISALBED, use dkl:mh-fcc-inbox and bind it to a key to do it
+	 ;; when desired.
+	 nil
+	 mh-sent-from-folder)
     (when (and mh-annotate-field
 	       (string= mh-annotate-field "Replied:"))
       (my-mh-insert-fields "Fcc:" mh-sent-from-folder)))
@@ -150,8 +154,7 @@
       (while (search-forward (char-to-string 160) nil t)
 	(replace-match " " nil t))
       (when was-read-only (toggle-read-only 1))
-      (setq truncate-lines t)
-      )))
+      (setq truncate-lines t))))
 
 (add-hook 'mh-show-mode-hook 'my-mh-show-mode-hook)
 
@@ -364,6 +367,7 @@
   (run-hooks 'text-mode-hook)
   (setq comment-start ">> "))
 
+;; DISABLED:
 (defun my-mh-letter-mode-hook-function2 ()
   ;; check if To: has "lifemasters.com" in it, then
   ;; 1. Cc: Powell and Fred
@@ -431,8 +435,15 @@ Do not insert any pairs whose value is the empty string."
                 folder)))))
 
 (add-hook 'mh-letter-mode-hook 'my-mh-letter-mode-hook-function0)
-(add-hook 'mh-letter-mode-hook 'my-mh-letter-mode-hook-function2)
 (add-hook 'mh-letter-mode-hook 'my-mh-letter-mode-hook-function3)
+
+(defun dkl:mh-fcc-from-folder ()
+  (interactive)
+  (save-excursion
+    (when mh-sent-from-folder
+      (when (and mh-annotate-field
+		 (string= mh-annotate-field "Replied:"))
+	(my-mh-insert-fields "Fcc:" mh-sent-from-folder)))))
 
 (condition-case ()
     (mh-find-path)
