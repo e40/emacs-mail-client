@@ -233,11 +233,27 @@ The following is an annotated version of my `~/.mairixrc`:
 
     database=/home/layer/.mairix/database
 
+And, to make searches work in Emacs do
+
+    $ cd ~/mail
+    $ mkdir .mairix
+    $ cd .mairix
+    $ ln -s ~/.mairixrc config
+
 For first-time setup, do this:
 
-    $ mairix
+    $ ./mairix-index.sh
 
-This will index all your email, according to your configuration.
+This will index all your email, according to your configuration.  Test
+that it worked:
+
+    $ mairix -r t:foo@franz.com
+
+where `foo@franz.com` is someone that you have sent mail to (`t:`
+means to search the `To:` field).
+
+Then, in Emacs, in your `+inbox`, do "F s" and test the search inside
+Emacs.
 
 #### cron job
 
