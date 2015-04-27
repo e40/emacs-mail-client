@@ -218,11 +218,36 @@ it in the process, or having `incfilter` create the message there.
 
 ### Indexing email with Mairix
 
-configuring
-cron job
+#### Configuring Mairix
 
-    # Mairix is fast, so index once an hour
-    0 * * * * cd mail; ./index.sh
+The following is an annotated version of my `~/.mairixrc`:
+
+    # The following must be EXACTLY the same as the expansion of $HOME/mail
+    base=/net/mymachine/home/layer/mail
+
+    # List of folders that should be indexed. 3 dots at the end means there
+    # are subfolders within the folder
+    mh=*
+    # List of folders to be excluded:
+    omit=spam:inbox-md:inbox-spam:mhe-index:.mairix
+
+    database=/home/layer/.mairix/database
+
+For first-time setup, do this:
+
+    $ mairix
+
+This will index all your email, according to your configuration.
+
+#### cron job
+
+You need to update the index periodically, and `cron` is the perfect
+way to do this:
+
+    # Mairix is fast, as it only indexes new emails, so do it once an hour
+    0 * * * * cd mail; ./mairix-index.sh
+
+`mairix-index.sh` is in this repo.
 
 ### cleaning up
 
