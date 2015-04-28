@@ -262,12 +262,12 @@
 
 (defvar dkl:my-inbox-summary-mode-map (make-keymap))
 
-(define-key dkl:my-inbox-summary-mode-map "."  'dkl:mh-inbox-summary-goto)
-(define-key dkl:my-inbox-summary-mode-map "f"  'dkl:mh-inbox-summary-goto)
-(define-key dkl:my-inbox-summary-mode-map "\r" 'dkl:mh-inbox-summary-goto)
-(define-key dkl:my-inbox-summary-mode-map "g"  'dkl:mh-inbox-summary)
-(define-key dkl:my-inbox-summary-mode-map "s"  'dkl:mh-inbox-summary-scan)
-(define-key dkl:my-inbox-summary-mode-map "q"  'dkl:mh-inbox-summary-quit)
+(define-key dkl:my-inbox-summary-mode-map "."    'dkl:mh-inbox-summary-goto)
+(define-key dkl:my-inbox-summary-mode-map "f"    'dkl:mh-inbox-summary-goto)
+(define-key dkl:my-inbox-summary-mode-map "\C-m" 'dkl:mh-inbox-summary-goto)
+(define-key dkl:my-inbox-summary-mode-map "g"    'dkl:mh-inbox-summary)
+(define-key dkl:my-inbox-summary-mode-map "s"    'dkl:mh-inbox-summary-scan)
+(define-key dkl:my-inbox-summary-mode-map "q"    'dkl:mh-inbox-summary-quit)
 
 (define-derived-mode dkl:mh-inbox-summary-mode text-mode "MH-Inboxes"
   (buffer-disable-undo)
