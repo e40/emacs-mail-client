@@ -90,7 +90,8 @@
    ;; Done after seeing discussion on the mh-e-users mailing list of the
    ;; error message:
    ;;   refile: message 55 doesn't exist
-   nil)
+;;;;4/28/15: try turning it back on for a while:
+   t)
  '(mh-compose-forward-as-mime-flag nil) ;; don't forward as mime attachment
  '(mh-mime-save-parts-directory "~/incoming/")
  '(mh-search-program 'mairix)
@@ -451,3 +452,19 @@ Do not insert any pairs whose value is the empty string."
 (condition-case ()
     (mh-find-path)
   (error nil))
+
+(defun dkl:mh-add-to-seq-and-refile (sequence folder)
+  "Add thread to SEQUENCE and refile to FOLDER."
+  (interactive (list (mh-read-seq-default "Add to" nil)
+		     (intern (mh-prompt-for-refile-folder))))
+  (unless (mh-valid-seq-p sequence)
+    (error "Can't put message in invalid sequence %s" sequence))
+  (when (not (string-match "^\\+inbox" (symbol-name folder)))
+    (error "You can only refile to an +inbox folder, not %s." folder))
+  (cond ((not (memq 'unthread mh-view-ops)) (error "Folder isn't threaded"))
+        ((eobp) (error "No message at point"))
+        (t
+	 (let ((msgs (dkl:mh-current-thread-to-msg-list)))
+	   (mh-add-msgs-to-seq msgs sequence)
+	   (mh-thread-refile folder))
+	 (kill-new (format "[%s:%s]" folder sequence)))))
