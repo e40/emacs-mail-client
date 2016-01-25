@@ -5,7 +5,7 @@
 ;;;(custom-set-variables '(mh-identity-default "Work"))
 
 (push
- (format "%smh-e-8.5/emacs/trunk/lisp/mh-e/"
+ (format "%smh-e-8.6/emacs/trunk/lisp/mh-e/"
 	 (file-name-directory load-file-name))
  load-path)
 
@@ -50,7 +50,9 @@
    ;;'html2text -- unusable
    ;;nil ;; external viewer (default web browser)
 
-   ;;'shr ;; this is runner up to gnus-w3m, but it's sometimes SLOW
+   ;; this is runner up to gnus-w3m, but it's sometimes SLOW, and sometimes
+   ;; HANGS.
+   ;;'shr
 
    ;; With GNU Emacs 24.4 this works best:
    'gnus-w3m
@@ -246,6 +248,13 @@
 	  (overlay-put over 'face face))))))
 
 ;;;;;; can't remember why I needed the following
+;; comparing to the original (mh-exec-cmd), my version is much smaller and
+;; differs in these ways:
+;;  - doesn't use mh-log-buffer (uses my own buffer)
+;;  - I erase my log buffer each time
+;;  - no annotation on errors
+;;  - no sit-for to display it to the user
+;;  - uses mh-exec-cmd-output to do the work
 (defun my-mh-exec-cmd (&rest command)
   (save-excursion
     (let ((temp " *my-mh-temp*"))

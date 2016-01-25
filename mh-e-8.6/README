@@ -1,0 +1,175 @@
+* COPYRIGHT
+
+Copyright (C) 2003-2006, 2008, 2009, 2011-2013, 2016 Free Software Foundation, Inc.
+	
+Copying and distribution of this file, with or without modification,
+are permitted in any medium without royalty provided the copyright
+notice and this notice are preserved.
+
+
+
+* INTRODUCTION
+
+Thank you for using MH-E 8.6, the newest release of the GNU Emacs
+front end for MH. This file contains installation directions; the
+release notes contain important information regarding this release. We
+encourage you to read these documents before using the software. The
+release notes for all versions are packaged with MH-E in a file called
+MH-E-NEWS.
+
+Emacs comes prepackaged with MH-E; the files in this package may be
+more recent however. To ascertain the version of MH-E in your version
+of Emacs and to determine whether it is necessary to install these
+files, run the command `M-x mh-version' within Emacs. If this package
+contains a more recent version of MH-E, read on.
+
+MH-E is built into Emacs, so if you check out the Emacs source, then
+you have no need of this release. You are already running the bleeding
+edge.
+
+This version of MH-E will appear in GNU Emacs 24.4 (unless MH-E is
+superseded by a newer version before Emacs is released). It is
+supported in GNU Emacs 23 and higher, as well as XEmacs 21.4.22
+and 21.5.31. MH-E is known not to work with GNU Emacs versions 20 and
+below, and XEmacs version 21.5.9 - 21.5.16. It is compatible with MH
+versions 6.8.4 and higher, all versions of nmh, and GNU mailutils 1.0
+and higher. Gnus is also required; version 5.10 or higher is
+recommended.
+
+
+
+* INSTALL
+
+** Extract the tarball.
+
+If you don't have GNU tar, use gzip to uncompress the tarball and drop
+the `z' option.
+
+    tar xzf mh-e-8.6.tgz
+
+** Compile.
+
+It is suggested, but not required, to compile MH-E. To do so, run
+`make' in the distribution directory:
+
+    cd mh-e-8.6
+    make
+
+If you run Emacs by any name other than `emacs', use the following
+instead:
+
+    cd mh-e-8.6
+    make EMACS=myemacs
+
+For example, Mac users might have to use something like:
+
+    make EMACS=/Applications/DarwinPorts/Emacs.app/Contents/MacOS/Emacs 
+
+If `M-x mh-version' shows that your compile- and run-time versions of
+Gnus are different, then it is likely that you compiled with the wrong
+version of Emacs.
+
+Note that the Makefile assumes an XEmacs variant if `xemacs' appears
+somewhere in the command name. Otherwise, it is assumed that GNU Emacs
+is being used.
+
+** Place these files in your load path.
+
+Add something like the following to your .emacs:
+
+    (add-to-list 'load-path (expand-file-name "~/mh-e-8.6/emacs/lisp/mh-e"))
+
+XEmacs users will also have to add this as well:
+
+    (add-to-list 'load-path (expand-file-name "~/mh-e-8.6"))
+
+** Enable the entry points into MH-E as autoloads.
+
+The MH-E entry points are predefined in Emacs 22 and higher. If you
+are using Emacs 21, which contains old autoload definitions,
+you *must* add the following to your .emacs to get the updated
+definitions:
+
+    (require 'mh-autoloads)
+
+If you want to customize MH-E before explicitly loading it, you may
+optionally add the following to your .emacs as well:
+
+    (require 'mh-cus-load)
+
+** Read the commentary at the top of mh-e.el.
+
+** Read the release notes in MH-E-NEWS.
+
+This is particularly important if you're already using MH-E and the
+major version number has changed. We don't bump major version numbers
+in MH-E for marketing reasons; it always means incompatible
+improvements were made.
+
+
+
+* MH-E DEVELOPMENT ENVIRONMENT INSTALLATION
+
+Non-developers can check out the MH-E development environment with:
+
+    git clone git://git.code.sf.net/p/mh-e/git mh-e
+
+Then run `make emacs' or just `make' in the `src' directory to check
+out Emacs, which includes MH-E proper, from Savannah. Then follow the
+steps that apply to you in INSTALL above.
+
+Developers can check out the MH-E development environment with:
+
+    git clone ssh://$USER@git.code.sf.net/p/mh-e/git mh-e
+
+Then run `make emacs-devel' to check out Emacs using the $USER
+environment variable as their Savannah login. If you already have
+Emacs installed, you can first create a symbolic link to it called
+`emacs' from the `src' directory. For example:
+
+    cd src
+    ln -s /usr/local/src/emacs
+
+
+
+* ADDITIONAL INFORMATION
+
+** Documentation
+
+Documentation comes in the form of a manual which comes in the
+following forms:
+
+*** info
+
+The info pages can be found by running the following command within
+Emacs:
+
+    C-h i m mh-e RET
+
+If the version of the manual that you get doesn't match this version
+of MH-E, download the latest version of the manual. See below.
+
+*** HTML & PDF
+
+An online version of the documentation is available here:
+
+    http://mh-e.sourceforge.net/manual/
+
+*** Source
+
+The source for the documentation can be obtained here:
+
+    https://sourceforge.net/projects/mh-e/files/MH-E%20Manual/
+
+With the source, you can build the Info pages, HTML, and PDF.
+
+** Mailing Lists, Bug Reports and Other Support
+
+Please read the commentary at the top of `mh-e.el'. Visit
+http://mh-e.sourceforge.net/ !
+
+
+Local variables:
+mode: outline
+paragraph-separate: "[ 	]*$"
+end:
