@@ -15,39 +15,35 @@
 ;;
 ;;; Code:
 
-(put 'mh-hooks 'custom-loads '(mh-e))
 (put 'faces 'custom-loads '(mh-e))
-(put 'mh-speedbar 'custom-loads '(mh-e))
-(put 'mh-scan-line-formats 'custom-loads '(mh-e))
-(put 'mh-sending-mail 'custom-loads '(mh-e))
-(put 'mh-e 'custom-loads '(mh-e))
-(put 'mh-tool-bar 'custom-loads '(mh-e))
-(put 'mh-inc 'custom-loads '(mh-e))
-(put 'mh-letter 'custom-loads '(mh-e))
-(put 'mh-show 'custom-loads '(mh-e))
-(put 'mh-identity 'custom-loads '(mh-e))
-(put 'mh-search 'custom-loads '(mh-e))
-(put 'mh-ranges 'custom-loads '(mh-e))
-(put 'mh-thread 'custom-loads '(mh-e))
-(put 'mh-folder-selection 'custom-loads '(mh-e))
-(put 'mh-junk 'custom-loads '(mh-e))
-(put 'mh-sequences 'custom-loads '(mh-e))
-(put 'mh-faces 'custom-loads '(mh-e))
-(put 'mh-alias 'custom-loads '(mh-e))
 (put 'mail 'custom-loads '(mh-e))
+(put 'mh-alias 'custom-loads '(mh-e))
+(put 'mh-e 'custom-loads '(mh-e))
+(put 'mh-faces 'custom-loads '(mh-e))
 (put 'mh-folder 'custom-loads '(mh-e))
-;; These are for handling :version.  We need to have a minimum of
-;; information so `customize-changed-options' could do its job.
+(put 'mh-folder-selection 'custom-loads '(mh-e))
+(put 'mh-hooks 'custom-loads '(mh-e))
+(put 'mh-identity 'custom-loads '(mh-e))
+(put 'mh-inc 'custom-loads '(mh-e))
+(put 'mh-junk 'custom-loads '(mh-e))
+(put 'mh-letter 'custom-loads '(mh-e))
+(put 'mh-ranges 'custom-loads '(mh-e))
+(put 'mh-scan-line-formats 'custom-loads '(mh-e))
+(put 'mh-search 'custom-loads '(mh-e))
+(put 'mh-sending-mail 'custom-loads '(mh-e))
+(put 'mh-sequences 'custom-loads '(mh-e))
+(put 'mh-show 'custom-loads '(mh-e))
+(put 'mh-speedbar 'custom-loads '(mh-e))
+(put 'mh-thread 'custom-loads '(mh-e))
+(put 'mh-tool-bar 'custom-loads '(mh-e))
+
+;; The remainder of this file is for handling :version.
+;; We provide a minimum of information so that `customize-changed-options'
+;; can do its job.
 
 ;; For groups we set `custom-version', `group-documentation' and
 ;; `custom-tag' (which are shown in the customize buffer), so we
 ;; don't have to load the file containing the group.
-
-;; `custom-versions-load-alist' is an alist that has as car a version
-;; number and as elts the files that have variables or faces that
-;; contain that version. These files should be loaded before showing
-;; the customization buffer that `customize-changed-options'
-;; generates.
 
 ;; This macro is used so we don't modify the information about
 ;; variables and groups if it's already set. (We don't know when
@@ -59,7 +55,12 @@
 
 
 (defvar custom-versions-load-alist nil
- "For internal use by custom.")
+  "For internal use by custom.
+This is an alist whose members have as car a version string, and as
+elements the files that have variables or faces that contain that
+version.  These files should be loaded before showing the customization
+buffer that `customize-changed-options' generates.")
+
 
 (provide 'mh-cus-load)
 ;; Local Variables:
