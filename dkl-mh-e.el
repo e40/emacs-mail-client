@@ -5,7 +5,7 @@
 ;;;(custom-set-variables '(mh-identity-default "Work"))
 
 (push
- (format "%smh-e-8.6/emacs/trunk/lisp/mh-e/"
+ (format "%smh-e-8.6/emacs/lisp/mh-e/"
 	 (file-name-directory load-file-name))
  load-path)
 
