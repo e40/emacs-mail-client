@@ -14,7 +14,8 @@
 ;;; Code:
 
 
-;;;### (autoloads nil "mh-e" "mh-e.el" (20802 22065 0 0))
+;;;### (autoloads (mh-version) "mh-e" "mh-e.el" (22029 59400 404111
+;;;;;;  836000))
 ;;; Generated autoloads from mh-e.el
 
 (put 'mh-progs 'risky-local-variable t)
@@ -30,7 +31,8 @@ Display version information about MH-E and the MH mail handling system.
 
 ;;;***
 
-;;;### (autoloads nil "mh-folder" "mh-folder.el" (20802 22065 0 0))
+;;;### (autoloads (mh-folder-mode mh-nmail mh-rmail) "mh-folder"
+;;;;;;  "mh-folder.el" (22029 59400 405111 836000))
 ;;; Generated autoloads from mh-folder.el
 
 (autoload 'mh-rmail "mh-folder" "\
@@ -116,11 +118,13 @@ perform the operation on all messages in that region.
 ;;;;;;  "mh-inc.el" "mh-junk.el" "mh-letter.el" "mh-limit.el" "mh-loaddefs.el"
 ;;;;;;  "mh-mime.el" "mh-print.el" "mh-scan.el" "mh-search.el" "mh-seq.el"
 ;;;;;;  "mh-show.el" "mh-speed.el" "mh-thread.el" "mh-tool-bar.el"
-;;;;;;  "mh-utils.el" "mh-xface.el") (22182 32750 842388 341000))
+;;;;;;  "mh-utils.el" "mh-xface.el") (22182 65176 595196 318000))
 
 ;;;***
 
-;;;### (autoloads nil "mh-comp" "mh-comp.el" (20802 22065 0 0))
+;;;### (autoloads (mh-fully-kill-draft mh-send-letter mh-user-agent-compose
+;;;;;;  mh-smail-batch mh-smail-other-window mh-smail) "mh-comp"
+;;;;;;  "mh-comp.el" (22029 59400 404111 836000))
 ;;; Generated autoloads from mh-comp.el
 
 (autoload 'mh-smail "mh-comp" "\
