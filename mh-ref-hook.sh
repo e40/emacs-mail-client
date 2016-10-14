@@ -1,6 +1,6 @@
 #! /bin/bash
 #
-# Use the refile hook to make sure messages moved in the `important' sequence
+# Use the ref-hook to make sure messages moved in the `important' sequence
 # retain membership in that sequence in their destination folder.
 
 prefix=$(mhpath +)
@@ -8,7 +8,7 @@ prefix=$(mhpath +)
 to=${2#${prefix}/}
 
 case $to in
-    *trash*) ;;
+    *trash*|*spam*) ;;
     *)  from=${1#${prefix}/}
 
 	fromf=${from%/*}
