@@ -49,11 +49,11 @@ function clean_folder() {
 	    rmm $folder first:$m
 	fi
 
-	# On Sunday, pack the folder
-	if [ "$(date +%u)" -eq 0 ]; then
-	    echo Packing $folder...
-	    folder $folder -pack
-	fi
+    fi
+    # On Sunday, pack the folder
+    if [ "$(date +%u)" -eq 7 ]; then
+	echo Packing $folder...
+	folder $folder -pack
     fi
     echo ""
 }
@@ -67,9 +67,9 @@ for file in $(find . -type f -size 0c -print); do
 done
 
 #            folder  max messages
-clean_folder +spam   9999
-clean_folder +trash  9999
-clean_folder +outbox 9999
+clean_folder +spam   9000
+clean_folder +trash  9000
+clean_folder +outbox 9600
 
 echo remove garbage...
 find . -name '#*' -print | xargs /bin/rm -f
