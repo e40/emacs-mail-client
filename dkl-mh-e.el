@@ -56,6 +56,10 @@
 
    ;; With GNU Emacs 24.4 this works best:
    'gnus-w3m
+   ;; the code executed in the above case is in
+   ;;    gnus/gnus-html.el:gnus-article-html
+   ;; it calls the w3m program with a set of arguments that seems to be
+   ;; more pleasing than other drivers that call w3m.
 
 ;;;; See mh-identity-default setting above
 ;;;   '(mh-identity-list
@@ -65,7 +69,11 @@
 ;;;	     ("Work" (("From" . "Your Name <username@work>")
 ;;;		      ("Fcc" . "+outbox"))))))
    )
-
+ 
+ ;; This is so the html part of mime messages are rendered in a pleasing
+ ;; way and so lines are not wrapped unnecessarily.  It's particularly bad
+ ;; for code, when the default is `70'.  See test359 for an example.
+ '(gnus-html-frame-width 999)
  
  '(mm-attachment-file-modes 420)	; mode 644 not 600!
  (list 'mh-inc-prog
@@ -86,7 +94,9 @@
    '("Message-Id:")) 
  '(mh-invisible-header-fields ;; hide 
    '("DKIM-Signature" "Comment" "DomainKey-" "X-" "In-" "Organization"
-     "References" "Reply-To" "Sender" "User-" "Mail-" "Bh-Id:" "Class:"))
+     "References" "Reply-To" "Sender" "User-" "Mail-" "Bh-Id:" "Class:"
+     "mls-" ;; WTF is this??
+     ))
  '(mh-refile-preserves-sequences-flag
    ;; 9/6/04:
    ;; Done after seeing discussion on the mh-e-users mailing list of the
