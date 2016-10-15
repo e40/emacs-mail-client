@@ -4,6 +4,11 @@
 
 set -eu
 
+if [ ! -d inbox ]; then
+    echo 'Are you in the mail directory?!???'
+    exit 1
+fi
+
 if test -f cleanup.lock; then
     echo cleanup.lock exists.  Exiting...
     exit 0
@@ -67,9 +72,9 @@ for file in $(find . -type f -size 0c -print); do
 done
 
 #            folder  max messages
-clean_folder +spam   9000
-clean_folder +trash  9000
-clean_folder +outbox 9600
+clean_folder +spam   9600
+clean_folder +trash  9600
+clean_folder +outbox 9900
 
 echo remove garbage...
 find . -name '#*' -print | xargs /bin/rm -f
