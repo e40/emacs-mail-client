@@ -70,6 +70,9 @@
 ;;;		      ("Fcc" . "+outbox"))))))
    )
  
+ ;; This makes text/plain preferred over text/html!! Yay!!! 
+ '(mm-discouraged-alternatives '("text/html"))
+ 
  ;; This is so the html part of mime messages are rendered in a pleasing
  ;; way and so lines are not wrapped unnecessarily.  It's particularly bad
  ;; for code, when the default is `70'.  See test359 for an example.
@@ -131,6 +134,10 @@
 (defun my-mh-compose-letter-function (to subject cc)
   ;; automatically fix bh header when report id in subject
   ;; Fcc to the source folder, too!  Idea from Ahmon.
+  (when (string= mh-version "8.6")
+    ;; hopefully fixed in the next MH-E version.
+    ;; Workaround from: https://sourceforge.net/p/mh-e/bugs/486/
+    (mh-decode-message-header))
   (when (and
 	 ;; DISALBED, use dkl:mh-fcc-inbox and bind it to a key to do it
 	 ;; when desired.

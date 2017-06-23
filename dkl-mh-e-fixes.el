@@ -354,3 +354,33 @@ automatically."
 	  max)))))
 
 )
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; make mh-spamassassin-blacklist local only
+;; from dancy on 2/21/17
+
+(defun mh-spamassassin-blacklist (msg)
+ (unless mh-sa-learn-executable
+   (error "Couldn't find the sa-learn executable"))
+ (let ((current-folder mh-current-folder)
+       (msg-file (mh-msg-filename msg mh-current-folder))
+       (sender))
+   (save-excursion
+     (mh-truncate-log-buffer)
+     (message "Recategorizing message %d as spam..." msg)
+     (call-process mh-sa-learn-executable msg-file mh-log-buffer nil
+                   "--spam" "--local")
+     (message "Recategorizing message %d as spam...done" msg))))
+
+(defun my-mh-learn-ham-in-folder ()
+  (interactive)
+    (let ((default-directory (file-name-as-directory
+			      (mh-expand-file-name (buffer-name)))))
+      (message "learn as ham from all messages in folder...")
+      (message "%s"
+	       (with-temp-buffer ()
+		 (call-process-shell-command
+		  (format "%s --ham [1-9]*" mh-sa-learn-executable)
+		  nil
+		  t)
+		 (buffer-string)))))
