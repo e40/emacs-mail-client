@@ -219,6 +219,9 @@
 
 ;;;;;;;;;
 
+;; NOTE: use M-x list-colors-display to find suitable colors for the
+;; situation.
+
 (cond
  ((eq 'x window-system)
   (defface my-scan-line-highlight '((t (:background "yellow")))
