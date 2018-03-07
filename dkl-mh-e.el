@@ -219,13 +219,21 @@
 
 ;;;;;;;;;
 
-(defface my-scan-line-highlight '((t (:background "yellow")))
-  "The face I use to highlight scan lines in MH-E."
-  :group 'my-faces)
-(defface my-scan-line-highlight-maybe-spam '((t (:background "cyan")))
-  "The face I use to highlight scan lines in MH-E."
-  :group 'my-faces)
-
+(cond
+ ((eq 'x window-system)
+  (defface my-scan-line-highlight '((t (:background "yellow")))
+    "The face I use to highlight scan lines in MH-E."
+    :group 'my-faces)
+  (defface my-scan-line-highlight-maybe-spam '((t (:background "cyan")))
+    "The face I use to highlight scan lines in MH-E."
+    :group 'my-faces))
+ (t ;; -nw
+  (defface my-scan-line-highlight '((t (:background "brightyellow")))
+    "The face I use to highlight scan lines in MH-E."
+    :group 'my-faces)
+  (defface my-scan-line-highlight-maybe-spam '((t (:background "brightcyan")))
+    "The face I use to highlight scan lines in MH-E."
+    :group 'my-faces)))
 
 (defun my-highlight-messages (from folder &optional range)
 ;;;;used to debug redundant calls to this function
