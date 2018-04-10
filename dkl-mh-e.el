@@ -169,11 +169,11 @@
 (defun my-mh-show-mode-hook ()
   (save-excursion
     (let ((was-read-only buffer-read-only))
-      (when buffer-read-only (toggle-read-only -1))
+      (when buffer-read-only (setq buffer-read-only nil))
       (goto-char (point-min))
       (while (search-forward (char-to-string 160) nil t)
 	(replace-match " " nil t))
-      (when was-read-only (toggle-read-only 1))
+      (when was-read-only (setq buffer-read-only t))
       (setq truncate-lines t))))
 
 (add-hook 'mh-show-mode-hook 'my-mh-show-mode-hook)

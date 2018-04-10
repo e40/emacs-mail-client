@@ -1,5 +1,5 @@
 
-MHE = 8.5
+MHE = 8.6
 
 .PHONY: default clean tags
 

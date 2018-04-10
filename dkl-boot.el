@@ -38,17 +38,17 @@
 
 
 (defun dkl:short-system-name ()
-  (if (string-match "\\([^.]+\\)\\(\\..*$\\)?" system-name)
-      (match-string 1 system-name)
-    (error "Could not determine short system-name from '%s'." system-name)))
+  (let ((s (system-name)))
+    (if (string-match "\\([^.]+\\)\\(\\..*$\\)?" s)
+	(match-string 1 s)
+      (error "Could not determine short system-name from '%s'." s))))
 
 
 (defun dkl:filter (predicate list)
   (let ((result '()))
-    (mapcar (lambda (item)
-	      (when (funcall predicate item)
+    (dolist (item list)
+      (when (funcall predicate item)
 		(push item result)))
-	    list)
     (nreverse result)))
 
 (defun dkl:on-macosx-p ()
