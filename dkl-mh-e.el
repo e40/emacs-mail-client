@@ -70,6 +70,10 @@
 ;;;		      ("Fcc" . "+outbox"))))))
    )
  
+ ;; This stops MH-E from making TLS connections for spam and other random
+ ;; emails.
+ '(gnus-blocked-images ".")
+ 
  ;; This makes text/plain preferred over text/html!! Yay!!! 
  '(mm-discouraged-alternatives '("text/html"))
  
