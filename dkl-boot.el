@@ -3,6 +3,10 @@
 ;; Partly here so others can use things like dkl-mh-mailfilter.el and
 ;; dkl-mh-e-fixes.el.
 
+;;;; this doesn't make any sense, since I haven't started using
+;;;; the cl- versions of anything yet...
+;;;(condition-case nil (require 'cl-lib)
+;;;  (error (require 'cl)))
 (require 'cl)
 
 (defun dkl:probe-file (file)
