@@ -39,6 +39,8 @@
 ;;;   '(mh-lib "/usr/lib/mh/")
 ;;;   '(mh-lib-progs mh-lib)))
 
+;;(mh-variant-set "GNU Mailutils 3.5")
+
 (custom-set-variables
  ;; In search of a good renderer for HTML emails!  Oh my!
  '(mm-text-html-renderer
@@ -509,3 +511,54 @@ Do not insert any pairs whose value is the empty string."
 	   (mh-add-msgs-to-seq msgs sequence)
 	   (mh-thread-refile folder))
 	 (kill-new (format "[%s:%s]" folder sequence)))))
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; message priorities
+
+;; helpful: https://rand-mh.sourceforge.io/book/mh/mhstr.html
+
+(custom-set-variables
+ ;; display value for X-Todo-Priority, if there:
+ (list
+  'mh-scan-format-nmh
+  (concat
+   "%4(msg)"
+   "%<(cur)+%| %>%<{replied}-"
+   "%?(nonnull(comp{to}))%<(mymbox{to})t%>"
+   "%?(nonnull(comp{cc}))%<(mymbox{cc})c%>"
+   "%?(nonnull(comp{bcc}))%<(mymbox{bcc})b%>"
+   "%?(nonnull(comp{newsgroups}))n%>"
+   "%<(zero) %>"
+;;;;TODO: the [ and ] come from:
+;;;;   mh-e-8.6/emacs/lisp/mh-e/mh-thread.el:mh-thread-generate-scan-lines
+   ;;"%<{x-todo-priority}%-3{x-todo-priority} %|    %>"
+   "%02(mon{date})/%02(mday{date})%<{date} %|*%>"
+   "%<(mymbox{from})%<{to}To:%14(decode(friendly{to}))%>%>"
+   "%<(zero)%17(decode(friendly{from}))%> "
+   "%(decode{subject})%<{body}<<%{body}%>")))
+
+;; Take over the current "P" keymap, since I never use those things.
+(setq mh-ps-print-map (make-sparse-keymap))
+
+;;(define-key (current-local-map) "P" mh-ps-print-map)
+
+;;(define-key mh-ps-print-map "s" 'my-mh-set-message-priority)
+;;(define-key mh-ps-print-map "d" 'my-mh-delete-message-priority)
+
+(defvar my-mh-priority-header "X-Todo-Priority")
+
+(defun my-mh-set-message-priority (priority)
+  (interactive "nPriority: ")
+  (let ((current-message (mh-get-msg-num t)))
+    (my-mh-delete-message-priority current-message)
+    (when (> priority 0)
+      (mh-exec-cmd "anno" mh-current-folder current-message
+		   "-component" my-mh-priority-header
+		   "-nodate"
+		   "-text" (format "%d" priority)
+		   "-inplace"))))
+
+(defun my-mh-delete-message-priority (message)
+  (interactive (list (mh-get-msg-num t)))
+  (mh-exec-cmd "anno" mh-current-folder message "-nodate" "-inplace"
+	       "-delete" "-component" my-mh-priority-header))
