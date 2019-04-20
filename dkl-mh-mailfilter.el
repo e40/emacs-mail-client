@@ -216,6 +216,8 @@
 
 (defvar dkl::mh-inbox-summary-window-config nil)
 
+(defvar dkl:mh-inbox-summary-buffer-extra-info-funcs nil)
+
 (defun dkl:mh-inbox-summary ()
   (interactive)
   (setq dkl::mh-inbox-summary-window-config (current-window-configuration))
@@ -235,7 +237,40 @@
     (goto-char (point-min))
     (forward-line (1- line-number)))
   (message "Checking folder status...done.")
-  (dkl:mh-inbox-summary-mode))
+  (dkl:mh-inbox-summary-mode)
+
+  (when dkl:mh-inbox-summary-buffer-extra-info-funcs
+    (let* ((nbuffers (length dkl:mh-inbox-summary-buffer-extra-info-funcs))
+	   (lines (frame-height (selected-frame)))
+	   (remain lines)
+	   (default-height (/ lines nbuffers))
+	   (splits (- nbuffers 1))
+	   height
+	   display-buffer)
+
+      (dolist (item dkl:mh-inbox-summary-buffer-extra-info-funcs)
+	(when (setq display-buffer (cdr (assoc :display-buffer item)))
+	  (funcall display-buffer))
+	
+	(when (> splits 0)
+	  (cond
+	   ((setq height (cdr (assoc :height item)))
+	    (setq height
+	      (cond ((floatp height)
+		      (when (> height .80) (error "too large: %s" height))
+		      
+		      (round (* height remain)))
+		     ((or (symbolp height) (functionp height))
+		      (min remain (funcall height)))
+		     (t (error "can't handle: %s" height)))))
+	   (t (setq height default-height)))
+
+	  ;;(y-or-n-p (format "about to split %d " height))
+	  (split-window-vertically height)
+	  (setq splits (- splits 1))
+	  (setq remain (- remain height)))
+	
+	(other-window 1)))))
 
 (defun dkl:mh-inbox-summary-scan ()
   (interactive)
@@ -256,9 +291,7 @@
     (forward-line (1- line-number)))
   (message "Checking folder status...done.")
   (setq truncate-lines t)
-  (setq buffer-read-only t)
-  ;;(dkl:mh-inbox-summary-mode)
-  )
+  (setq buffer-read-only t))
 
 (defvar dkl:my-inbox-summary-mode-map (make-keymap))
 
