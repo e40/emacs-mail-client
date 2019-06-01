@@ -138,9 +138,10 @@ You need these additions to your `~/.mh_profile`:
     #: to the +trash folder -- customize to your needs.  See also
     #: the mh-cleanup.sh script below.
     rmmproc: /home/layer/src/emacs/emacs-mail-client/mh-rmmproc.sh
-    send: -msgid
+    send: -msgid -port 25
     #: so messages in the `important' sequence stay in it after being moved
-    ref-hook: /home/layer/src/emacs/emacs-mail-client/mh-ref-hook.sh
+    #: FIXED in nmh 1.6, so don't use it anymore
+    #: ref-hook: /home/layer/src/emacs/emacs-mail-client/mh-ref-hook.sh
 
 Of course, use the actual path to this repo on your system.
 
