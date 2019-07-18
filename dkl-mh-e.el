@@ -103,8 +103,12 @@
    '("Message-Id:")) 
  '(mh-invisible-header-fields ;; hide 
    '("DKIM-Signature" "Comment" "DomainKey-" "X-" "In-" "Organization"
-     "References" "Reply-To" "Sender" "User-" "Mail-" "Bh-Id:" "Class:"
-     "mls-" ;; WTF is this??
+     "References"
+;;;; Don't hide this, SPR creation uses it in preference to the From,
+;;;; which for some customers is really screwed up.  Monil looking at you.
+     ;;"Reply-To"
+     "Sender" "User-" "Mail-" "Bh-Id:" "Class:"
+     "mls-" "ARC-" "msip_labels" "IronPort-" "Autocrypt"
      ))
  '(mh-refile-preserves-sequences-flag
    ;; 9/6/04:
