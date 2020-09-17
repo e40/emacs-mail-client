@@ -384,3 +384,70 @@ automatically."
 		  nil
 		  t)
 		 (buffer-string)))))
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; fix mh-mime-save-parts so that you can save all mime parts without parts
+;; with the same name clobbering the previous one, when saved.
+
+(require 'mh-mime) ;; where the following is defined
+(defun mh-mime-save-parts (prompt)
+  "Save attachments.
+
+You can save all of the attachments at once with this command.
+The attachments are saved in the directory specified by the
+option `mh-mime-save-parts-default-directory' unless you use a
+prefix argument PROMPT in which case you are prompted for the
+directory. These directories may be superseded by MH profile
+components, since this function calls on \"mhstore\" (\"mhn\") to
+do the work.
+
+DKL FIXED."
+  (interactive "P")
+  (let ((msg (if (eq major-mode 'mh-show-mode)
+                 (mh-show-buffer-message-number)
+               (mh-get-msg-num t)))
+        (folder (if (eq major-mode 'mh-show-mode)
+                    mh-show-folder-buffer
+                  mh-current-folder))
+        (command (if (mh-variant-p 'nmh) "mhstore" "mhn"))
+        (directory
+         (cond
+          ((and (or prompt
+                    (equal nil mh-mime-save-parts-default-directory)
+                    (equal t mh-mime-save-parts-default-directory))
+                (not mh-mime-save-parts-directory))
+           (read-directory-name "Store in directory: " nil nil t))
+          ((and (or prompt
+                    (equal t mh-mime-save-parts-default-directory))
+                mh-mime-save-parts-directory)
+           (read-directory-name (format
+                            "Store in directory (default %s): "
+                            mh-mime-save-parts-directory)
+                           "" mh-mime-save-parts-directory t ""))
+          ((stringp mh-mime-save-parts-default-directory)
+           mh-mime-save-parts-default-directory)
+          (t
+           mh-mime-save-parts-directory))))
+    (if (and (equal directory "") mh-mime-save-parts-directory)
+        (setq directory mh-mime-save-parts-directory))
+    (if (not (file-directory-p directory))
+        (message "No directory specified")
+      (if (equal nil mh-mime-save-parts-default-directory)
+          (setq mh-mime-save-parts-directory directory))
+      (with-current-buffer (get-buffer-create mh-log-buffer)
+        (cd directory)
+        (setq mh-mime-save-parts-directory directory)
+        (let ((initial-size (mh-truncate-log-buffer)))
+          (apply 'call-process
+                 (expand-file-name command mh-progs) nil t nil
+                 (mh-list-to-string (list folder msg "-auto"
+;;;;DKL... this prevents items named the same, which happens more than you
+;;;;would think, to be collapsed into a single file.
+                                          "-clobber" "auto"
+;;;;...DKL
+                                          (if (not (mh-variant-p 'nmh))
+                                              "-store"))))
+          (if (> (buffer-size) initial-size)
+              (save-window-excursion
+                (switch-to-buffer-other-window mh-log-buffer)
+                (sit-for 3))))))))
