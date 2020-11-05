@@ -1,14 +1,17 @@
 
-MHE = 8.6
+VERSION = 27.1
 
 .PHONY: default clean tags
 
 default: clean tags
-	cd mh-e-$(MHE); make
+	rm -f *.elc; \
+	cd mh-e-$(VERSION); \
+	rm -f *.elc; \
+	emacs -q -batch -f batch-byte-compile *.el
 
 clean:
-	rm -f *.elc TAGS
+	rm -f *.elc */*.elc TAGS
 
 tags:
 	rm -f TAGS
-	find . -name '*.el' | xargs etags -a
+	etags *.el mh-e-$(VERSION)/*.el

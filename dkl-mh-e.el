@@ -4,27 +4,23 @@
 ;;;(custom-set-variables '(mh-identity-default "Home"))
 ;;;(custom-set-variables '(mh-identity-default "Work"))
 
-(push
- (format "%smh-e-8.6/emacs/lisp/mh-e/"
-	 (file-name-directory load-file-name))
- load-path)
+(when (or (< emacs-major-version 27)
+	  (< emacs-minor-version 1))
+  (error "emacs-mail-client requires Emacs 27.1"))
 
-(dkl:safe-load "message")
-(dkl:safe-load "mh-e")
+(push (format "%smh-e-27.1/" (file-name-directory load-file-name))
+      load-path)
 
-(when (string= "8.4" mh-version)
-  (error "MH-E 8.4 is buggy.  Don't use."))
-
-(dkl:safe-require 'mh-comp)
-(dkl:safe-require 'mh-mime)
-(dkl:safe-require 'mh-utils)
-(dkl:safe-require 'mh-alias)
-(dkl:safe-require 'mh-junk)
-;; MH-E 8.0 needs this (for mh-to-fcc):
-(dkl:safe-require 'mh-letter)
-(dkl:safe-require 'mh-folder)
-(dkl:safe-require 'mh-utils) ;; make sure mh-folder-completion-map is defined
-(dkl:safe-require 'mh-thread)
+(require 'mh-e)
+(require 'mh-comp)
+(require 'mh-mime)
+(require 'mh-utils)
+(require 'mh-alias)
+(require 'mh-junk)
+(require 'mh-letter)
+(require 'mh-folder)
+(require 'mh-utils)
+(require 'mh-thread)
 
 (dkl:byte-compile-file (format "%sdkl-mh-e-fixes.el"
 			       (file-name-directory load-file-name))
@@ -32,14 +28,6 @@
 (dkl:byte-compile-file (format "%sdkl-mh-mailfilter.el"
 			       (file-name-directory load-file-name))
 		       t)
-
-;;;(when (file-exists-p "/usr/bin/mh")
-;;;  (custom-set-variables
-;;;   '(mh-progs "/usr/bin/mh/")
-;;;   '(mh-lib "/usr/lib/mh/")
-;;;   '(mh-lib-progs mh-lib)))
-
-;;(mh-variant-set "GNU Mailutils 3.5")
 
 (custom-set-variables
  ;; In search of a good renderer for HTML emails!  Oh my!
@@ -566,3 +554,16 @@ Do not insert any pairs whose value is the empty string."
   (interactive (list (mh-get-msg-num t)))
   (mh-exec-cmd "anno" mh-current-folder message "-nodate" "-inplace"
 	       "-delete" "-component" my-mh-priority-header))
+
+(defun my-mh-learn-ham-in-folder ()
+  (interactive)
+  (let ((default-directory (file-name-as-directory
+			    (mh-expand-file-name (buffer-name)))))
+    (message "learn as ham from all messages in folder...")
+    (message "%s"
+	     (with-temp-buffer ()
+	       (call-process-shell-command
+		(format "%s --ham [1-9]*" mh-sa-learn-executable)
+		nil
+		t)
+	       (buffer-string)))))

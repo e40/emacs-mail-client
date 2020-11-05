@@ -12,11 +12,13 @@
 (defun dkl:probe-file (file)
   (when (file-exists-p file) file))
 
+;; used???
 (defun dkl:safe-require (name)
   (condition-case ()
       (let ((debug-on-error nil)) (require name))
     (error (message "Failed to require %s" name))))
 
+;; used???
 (defun dkl:safe-load (path)
   (condition-case ()
       (let ((debug-on-error nil)) (load path))
