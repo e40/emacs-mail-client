@@ -233,7 +233,9 @@
 		  t			; current buffer
 		  nil			; don't redisplay as output
 		  "-l")
-    ;; (goto-line line-number) in a program:
+
+    (mh-snooze-summary)
+    
     (goto-char (point-min))
     (forward-line (1- line-number)))
   (message "Checking folder status...done.")

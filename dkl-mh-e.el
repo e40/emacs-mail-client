@@ -567,3 +567,159 @@ Do not insert any pairs whose value is the empty string."
 		nil
 		t)
 	       (buffer-string)))))
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; Snooze support
+
+(defvar mh-snoozed-unsnooze-script "nmh-unsnooze.sh")
+
+(defvar mh-snoozed-default-time-of-day "06:00")
+
+(defvar mh-snoozed-folder        (mh-profile-component "Snoozed-Folder"))
+(defvar mh-snoozed-header-date   (mh-profile-component "Snoozed-Header-Date"))
+(defvar mh-snoozed-header-folder (mh-profile-component "Snoozed-Header-Folder"))
+
+(defvar mh-snoozed-folder-cached nil
+  ;; cache the interned value of the snoozed folder, so we don't have to
+  ;; keep interning it each time
+  )
+
+(defun mh-snooze-msg (msg snooze-folder snooze-date)
+  "Snooze MSG to SNOOZE-FOLDER until SNOOZE-DATE.  Snoozing a message makes
+it disappear from the current folder, to reappear on SNOOZE-DATE, which
+also includes a time of day.  See `mh-snoozed-default-time-of-day'
+for the default time of day for it to reappear in the original
+folder.
+
+Proper snoozing operation depends on:
+
+Additions to $HOME/.mh_profile:
+
+   Snoozed-Folder: +snoozed
+   Snoozed-Header-Date: X-snooze-date
+   Snoozed-Header-Folder: X-snooze-folder
+
+Additional bindings in mh-folder-mode-map, suggested:
+
+   (define-key mh-folder-mode-map \"s\" 'mh-snooze-msg)
+   (define-key mh-folder-mode-map \"U\" 'mh-unsnooze-msg)
+
+A crontab entry to hourly unsnooze messages, suggested:
+
+   1 * * * *   $HOME/bin/nmh-unsnooze.sh
+
+Cron implementations diff, so see your system documentation.
+
+Headers are added to messages when snoozed and removed when 
+unsnoozed."
+  (interactive (list
+		(mh-get-msg-num t)
+		
+		(cond
+		 (mh-snoozed-folder-cached)
+		 (t
+		  (when (not (mh-folder-name-p mh-snoozed-folder))
+		    (setq mh-snoozed-folder
+		      (format "+%s" mh-snoozed-folder)))
+		  (when (not (file-exists-p
+			      (mh-expand-file-name mh-snoozed-folder)))
+		    (error
+		     "Snoozed folder \"%s\" not found; create it and try again"
+		     (mh-expand-file-name mh-snoozed-folder)))
+		  (setq mh-snoozed-folder-cached
+		    (intern mh-snoozed-folder))))
+		
+		(my-get-date-and-time)))
+
+  ;; annotate the message with SNOOZE-DATE
+  (mh-annotate-msg msg mh-current-folder mh-note-refiled
+		   "-nodate"
+		   "-component" mh-snoozed-header-date
+		   "-text" snooze-date)
+
+  ;; annotate the message with the current folder, so we know where to
+  ;; return the message
+  (mh-annotate-msg msg mh-current-folder mh-note-refiled
+		   "-nodate"
+		   "-component" mh-snoozed-header-folder
+		   "-text" mh-current-folder)
+  
+  ;; Now just refile to the snoozed folder
+  (mh-refile-msg (list msg) snooze-folder t))
+
+(defun mh-unsnooze-msg (msg)
+  "Unsnooze the message at point.  The destination folder is given by
+`mh-snoozed-header-folder'."
+  (interactive (list (mh-get-msg-num t)))
+  
+  (let ((destination-folder
+	 (intern
+	  (or (my-mh-get-header-value-from-msg msg
+					       mh-snoozed-header-folder)
+	      mh-inbox))))
+
+    ;; remove the snoozed annotation
+    (mh-annotate-msg msg mh-current-folder mh-note-refiled
+		     "-nodate" "-component" mh-snoozed-header-date
+		     "-delete")
+
+    ;; remove the snoozed annotation
+    (mh-annotate-msg msg mh-current-folder mh-note-refiled
+		     "-nodate" "-component" mh-snoozed-header-folder
+		     "-delete")
+
+    ;; make it new and refile it back to the folder it came from
+    (let ((msgs (list msg)))
+      (mh-add-msgs-to-seq msgs mh-unseen-seq)
+      (mh-refile-msg msgs destination-folder t))))
+
+
+;; Was surprised to find this wasn't already an MH-E utility
+(defun my-mh-get-header-value-from-msg (msg header)
+  ;; From MSG return the string corresponding to the HEADER's value.
+  ;; HEADER does not end in a colon (:).
+  (let ((msg-file (mh-msg-filename msg mh-current-folder)))
+    (with-temp-buffer ()
+      (erase-buffer)
+      (insert-file-contents msg-file)
+      (goto-char (point-min))
+      (mh-get-header-field (format "%s:" header)))))
+
+;; needed for org-read-date
+(require 'org)
+
+(defun my-get-date-and-time ()
+  "Read a date and an optional time from the user, using 
+org-read-date, and return the answer in a string of the form
+YYYY-MM-DD,HH:MM.
+
+See the documentation for `org-read-date' for information on valid
+dates."
+  (let ((answer (org-read-date
+		 t nil nil "Snooze until: "
+		 ;; the default value is the current date and the snoozed
+		 ;; default time
+		 (org-time-string-to-time
+		  (format "%s %s"
+			  (format-time-string "%F")
+			  mh-snoozed-default-time-of-day)))))
+    (cond ((string-match "^\\(....-..-..\\) \\(..:..\\)$" answer)
+	   (format "%s,%s" (match-string 1 answer) (match-string 2 answer)))
+	  ((string-match "^....-..-..$" answer)
+	   ;; add default time
+	   (format "%s,%s" answer mh-snoozed-default-time-of-day))
+	  (t (error "can't parse: %s" answer)))))
+
+;; Used by dkl:mh-inbox-summary.
+(defun mh-snooze-summary ()
+  "Insert a summary of the snoozed messages into the current buffer at
+the point."
+  (newline)
+  (insert "Snoozed messages:")
+  (newline)
+  (newline)
+  (call-process mh-snoozed-unsnooze-script
+		nil			; infile
+		t			; current buffer
+		nil			; don't redisplay as output
+		"-r"))
