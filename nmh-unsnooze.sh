@@ -104,13 +104,13 @@ EOF
 
 {
 
-    if [ "$report" ]; then
-	scan $srcfolder -form $tempfile
+    if ! scan $srcfolder -format "%(msg)" > $tempfile 2>/dev/null; then
+	logit $(date) no messages in $srcfolder
 	exit 0
     fi
 
-    if ! scan $srcfolder -format "%(msg)" > $tempfile 2>/dev/null; then
-	logit $(date) no messages in $srcfolder
+    if [ "$report" ]; then
+	scan $srcfolder -form $tempfile
 	exit 0
     fi
 
