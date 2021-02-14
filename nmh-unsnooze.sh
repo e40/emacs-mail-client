@@ -104,7 +104,7 @@ EOF
 
 {
 
-    if ! scan $srcfolder -format "%(msg)" > $tempfile 2>/dev/null; then
+    if ! scan $srcfolder -format "%(msg)" >/dev/null 2>/dev/null; then
 	logit $(date) no messages in $srcfolder
 	exit 0
     fi
