@@ -70,11 +70,12 @@ done
 lockfile="/tmp/${prog}.lock"
 lockfile -r 0 $lockfile || errordie $prog is already running
 
-tempfile="/tmp/${prog}temp$$"
-rm -f $tempfile
+tempfile="/tmp/${prog}tempfile$$"
+tempform="/tmp/${prog}tempform$$"
+rm -f $tempfile $tempform
 
 function exit_cleanup {
-    /bin/rm -f $lockfile $tempfile
+    /bin/rm -f $lockfile $tempfile $tempform
 }
 function err_report {
     echo "Error on line $(caller)" 1>&2
@@ -95,7 +96,7 @@ function logit {
 }
 
 # In the case of -r, this is used:
-cat > $tempfile <<EOF
+cat > $tempform <<EOF
 %2(msg) \
 %{X-snooze-date} \
 %<(mymbox{from})%<{to}To:%14(decode(friendly{to}))%>%> \
@@ -104,13 +105,15 @@ EOF
 
 {
 
-    if ! scan $srcfolder -format "%(msg)" >/dev/null 2>/dev/null; then
+    # Get the list of messages in snoozed folder...
+    if ! scan $srcfolder -format "%(msg)" >$tempfile 2>/dev/null; then
+	# ...and exit if there are none
 	logit $(date) no messages in $srcfolder
 	exit 0
     fi
 
     if [ "$report" ]; then
-	scan $srcfolder -form $tempfile
+	scan $srcfolder -form $tempform
 	exit 0
     fi
 
