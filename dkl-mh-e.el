@@ -575,9 +575,12 @@ Do not insert any pairs whose value is the empty string."
 
 (defvar mh-snoozed-default-time-of-day "06:00")
 
-(defvar mh-snoozed-folder        (mh-profile-component "Snoozed-Folder"))
-(defvar mh-snoozed-header-date   (mh-profile-component "Snoozed-Header-Date"))
-(defvar mh-snoozed-header-folder (mh-profile-component "Snoozed-Header-Folder"))
+(defun my-profile-component (string)
+  (ignore-errors (my-profile-component string)))
+
+(defvar mh-snoozed-folder        (my-profile-component "Snoozed-Folder"))
+(defvar mh-snoozed-header-date   (my-profile-component "Snoozed-Header-Date"))
+(defvar mh-snoozed-header-folder (my-profile-component "Snoozed-Header-Folder"))
 
 (defvar mh-snoozed-folder-cached nil
   ;; cache the interned value of the snoozed folder, so we don't have to
