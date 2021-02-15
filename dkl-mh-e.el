@@ -679,14 +679,31 @@ unsnoozed."
 
 ;; Was surprised to find this wasn't already an MH-E utility
 (defun my-mh-get-header-value-from-msg (msg header)
-  ;; From MSG return the string corresponding to the HEADER's value.
-  ;; HEADER does not end in a colon (:).
+  "Retreive from MSG the string corresponding to HEADER's value.
+HEADER does not end in a colon (:), unlike other MH-E functions that
+deal with headers."
   (let ((msg-file (mh-msg-filename msg mh-current-folder)))
     (with-temp-buffer ()
       (erase-buffer)
       (insert-file-contents msg-file)
       (goto-char (point-min))
       (mh-get-header-field (format "%s:" header)))))
+
+;; Was surprised to find this wasn't already an MH-E utility
+(defun my-mh-ensure-folder-exists (folder)
+  "Ensure that FOLDER exists, creating it if it does not.  Operates
+silently.  FOLDER can be a symbol or a string, with or without a leading
+plus (+)."
+  (when (symbolp folder) (setq folder (symbol-name folder)))
+  (setq folder ;; without the +
+    (cond ((and (eq (aref folder 0) ?+))
+	   (subseq folder 1))
+	  (t folder)))
+  (let ((folder-directory (format "%s%s" mh-user-path folder)))
+    (or (file-exists-p mh-user-path)
+	(error "mh-user-path does not exist: %s" mh-user-path))
+    (when (not (file-exists-p folder-directory))
+      (make-directory folder-directory))))
 
 ;; needed for org-read-date
 (require 'org)
