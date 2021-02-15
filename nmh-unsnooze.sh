@@ -154,8 +154,8 @@ EOF
 	logit ${srcfolder}: $(scan $srcfolder $msg)
 
 	# remove the header
-	d anno -nodate -component "$dateheader"   -delete
-	d anno -nodate -component "$folderheader" -delete
+	d anno $srcfolder $msg -nodate -component "$dateheader"   -delete
+	d anno $srcfolder $msg -nodate -component "$folderheader" -delete
 
 	# make it new again
 	d mark $srcfolder $msg -sequence $unseen -add 
