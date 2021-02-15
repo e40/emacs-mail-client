@@ -626,14 +626,12 @@ unsnoozed."
 		      (format "+%s" mh-snoozed-folder)))
 		  (when (not (file-exists-p
 			      (mh-expand-file-name mh-snoozed-folder)))
-		    (error
-		     "Snoozed folder \"%s\" not found; create it and try again"
-		     (mh-expand-file-name mh-snoozed-folder)))
+		    (my-mh-ensure-folder-exists mh-snoozed-folder-cached))
 		  (setq mh-snoozed-folder-cached
 		    (intern mh-snoozed-folder))))
 		
 		(my-get-date-and-time)))
-
+  
   ;; annotate the message with SNOOZE-DATE
   (mh-annotate-msg msg mh-current-folder mh-note-refiled
 		   "-nodate"
