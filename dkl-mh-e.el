@@ -484,10 +484,6 @@ Do not insert any pairs whose value is the empty string."
       (my-mh-insert-fields "Fcc:" mh-sent-from-folder))
      (t (my-mh-insert-fields "Fcc:" "inbox")))))
 
-(condition-case ()
-    (mh-find-path)
-  (error nil))
-
 (defun dkl:mh-add-to-seq-and-refile (sequence folder)
   "Add thread to SEQUENCE and refile to FOLDER."
   (interactive (list (mh-read-seq-default "Add to" nil)
@@ -579,16 +575,16 @@ Do not insert any pairs whose value is the empty string."
 (defvar mh-snoozed-header-date   nil)
 (defvar mh-snoozed-header-folder nil)
 
-(defun mh-one-time-snooze-setup ()
+(defun dkl:mh-one-time-snooze-setup ()
   ;; Initialize the variabes set from MH profile components when MH-E is
   ;; set up, not at load time.
   (setq mh-snoozed-folder        (mh-profile-component "Snoozed-Folder"))
   (setq mh-snoozed-header-date   (mh-profile-component "Snoozed-Header-Date"))
   (setq mh-snoozed-header-folder (mh-profile-component "Snoozed-Header-Folder"))
   
-  (remove-hook 'mh-find-path-hook 'mh-one-time-snooze-setup))
+  (remove-hook 'mh-find-path-hook 'dkl:mh-one-time-snooze-setup))
 
-(add-hook 'mh-find-path-hook 'mh-one-time-snooze-setup)
+(add-hook 'mh-find-path-hook 'dkl:mh-one-time-snooze-setup)
 
 (defvar mh-snoozed-folder-cached nil
   ;; cache the interned value of the snoozed folder, so we don't have to
@@ -749,3 +745,10 @@ the point."
 		t			; current buffer
 		nil			; don't redisplay as output
 		"-r"))
+
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; LAST!
+
+(ignore-errors ;; for systems where it is not configured
+ (mh-find-path))
