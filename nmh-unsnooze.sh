@@ -113,7 +113,7 @@ EOF
     fi
 
     if [ "$report" ]; then
-	scan $srcfolder -form $tempform
+	scan $srcfolder -form $tempform | sort -k 2
 	exit 0
     fi
 
