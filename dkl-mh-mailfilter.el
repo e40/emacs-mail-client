@@ -220,7 +220,10 @@
 
 (defun dkl:mh-inbox-summary ()
   (interactive)
-  (setq dkl::mh-inbox-summary-window-config (current-window-configuration))
+  (when (not (string= dkl:mh-inbox-summary-buffer (buffer-name)))
+    ;; Don't clobber the window configuration that got us here if we do
+    ;; 'g'!
+    (setq dkl::mh-inbox-summary-window-config (current-window-configuration)))
   (setq dkl:mh-inbox-summary-inc-status nil)
   (switch-to-buffer (get-buffer-create dkl:mh-inbox-summary-buffer))
   (delete-other-windows (get-buffer-window dkl:mh-inbox-summary-buffer))
