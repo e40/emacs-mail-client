@@ -218,6 +218,14 @@
 
 (defvar dkl:mh-inbox-summary-buffer-extra-info-funcs nil)
 
+;; NIL means currently visible, make invisible.
+;; non-NIL means currently invisible, make visible and the value
+;;   of the variable is the overlay to delete.
+(make-variable-buffer-local 'dkl:mh-inbox-summary-snooze-toggle)
+
+;; Used to hide the Snoozed messages section
+(add-to-invisibility-spec 'dkl:mh-inbox-summary-hide-lines)
+
 (defun dkl:mh-inbox-summary ()
   (interactive)
   (when (not (string= dkl:mh-inbox-summary-buffer (buffer-name)))
@@ -228,21 +236,32 @@
   (switch-to-buffer (get-buffer-create dkl:mh-inbox-summary-buffer))
   (delete-other-windows (get-buffer-window dkl:mh-inbox-summary-buffer))
   (setq buffer-read-only nil)
-  (let ((line-number (line-number-at-pos)))
-    (erase-buffer)
-    (message "Checking folder status...")
-    (call-process dkl:*mailstatus-program*
-		  nil			; infile
-		  t			; current buffer
-		  nil			; don't redisplay as output
-		  "-l")
+  
+  (let ((snoozed-hidden (when dkl:mh-inbox-summary-snooze-toggle t)))
+    (let ((line-number (line-number-at-pos)))
+      (when snoozed-hidden
+	(delete-overlay dkl:mh-inbox-summary-snooze-toggle)
+	(setq dkl:mh-inbox-summary-snooze-toggle nil))
+      (erase-buffer)
+      (message "Checking folder status...")
+      (call-process dkl:*mailstatus-program*
+		    nil			; infile
+		    t			; current buffer
+		    nil			; don't redisplay as output
+		    "-l")
 
-    (mh-snooze-summary)
-    
-    (goto-char (point-min))
-    (forward-line (1- line-number)))
-  (message "Checking folder status...done.")
-  (dkl:mh-inbox-summary-mode)
+      (mh-snooze-summary)
+
+      (goto-char (point-min))
+      (forward-line (1- line-number)))
+  
+    (message "Checking folder status...done.")
+    (dkl:mh-inbox-summary-mode)
+  
+    (when snoozed-hidden
+      ;; MUST BE DONE AFTER dkl:mh-inbox-summary-mode because
+      ;; that function clears local variables!
+      (dkl:mh-inbox-summary-toggle-snoozes)))
 
   (when dkl:mh-inbox-summary-buffer-extra-info-funcs
     (let* ((nbuffers (length dkl:mh-inbox-summary-buffer-extra-info-funcs))
@@ -275,7 +294,8 @@
 	  (setq splits (- splits 1))
 	  (setq remain (- remain height)))
 	
-	(other-window 1)))))
+	(other-window 1))))
+  )
 
 (defun dkl:mh-inbox-summary-scan ()
   (interactive)
@@ -298,14 +318,34 @@
   (setq truncate-lines t)
   (setq buffer-read-only t))
 
-(defvar dkl:my-inbox-summary-mode-map (make-keymap))
+(defun dkl:mh-inbox-summary-toggle-snoozes ()
+  (interactive)
+  (save-excursion
+    (cond
+     (dkl:mh-inbox-summary-snooze-toggle
+      ;; currently invisible, make visible
+      (delete-overlay dkl:mh-inbox-summary-snooze-toggle)
+      (setq dkl:mh-inbox-summary-snooze-toggle nil))
+     (t ;; currently visible, make invisible
+      (goto-char (point-max))
+      (let* ((end (point-max))
+	     (start (re-search-backward "^Snoozed messages:" nil t))
+	     (overlay (make-overlay start end)))
+	(setq dkl:mh-inbox-summary-snooze-toggle overlay)
+	(overlay-put dkl:mh-inbox-summary-snooze-toggle
+		     'invisible 'dkl:mh-inbox-summary-hide-lines))))))
 
-(define-key dkl:my-inbox-summary-mode-map "."    'dkl:mh-inbox-summary-goto)
-(define-key dkl:my-inbox-summary-mode-map "f"    'dkl:mh-inbox-summary-goto)
-(define-key dkl:my-inbox-summary-mode-map "\C-m" 'dkl:mh-inbox-summary-goto)
-(define-key dkl:my-inbox-summary-mode-map "g"    'dkl:mh-inbox-summary)
-(define-key dkl:my-inbox-summary-mode-map "s"    'dkl:mh-inbox-summary-scan)
-(define-key dkl:my-inbox-summary-mode-map "q"    'dkl:mh-inbox-summary-quit)
+
+(defvar dkl:my-inbox-summary-mode-map (make-keymap))
+;;
+(let ((map dkl:my-inbox-summary-mode-map))
+  (define-key map "."    'dkl:mh-inbox-summary-goto)
+  (define-key map "f"    'dkl:mh-inbox-summary-goto)
+  (define-key map "\C-m" 'dkl:mh-inbox-summary-goto)
+  (define-key map "g"    'dkl:mh-inbox-summary)
+  (define-key map "s"    'dkl:mh-inbox-summary-toggle-snoozes)
+  (define-key map "S"    'dkl:mh-inbox-summary-scan)
+  (define-key map "q"    'dkl:mh-inbox-summary-quit))
 
 (define-derived-mode dkl:mh-inbox-summary-mode text-mode "MH-Inboxes"
   (buffer-disable-undo)
