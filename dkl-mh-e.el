@@ -22,6 +22,12 @@
 (require 'mh-utils)
 (require 'mh-thread)
 
+;; must be after (require 'mh-folder)
+(mh-generate-sequence-font-lock mh-unseen-seq unseen
+				;; bold
+				italic
+				)
+
 (dkl:byte-compile-file (format "%sdkl-mh-e-fixes.el"
 			       (file-name-directory load-file-name))
 		       t)
@@ -225,21 +231,21 @@
  ((and (boundp 'dkl:dark-mode)
        dkl:dark-mode
        (eq 'x window-system))
-  (defface my-scan-line-highlight '((t (:background "blue")))
+  (defface my-scan-line-highlight-important '((t (:background "blue")))
     "The face I use to highlight scan lines in MH-E."
     :group 'my-faces)
   (defface my-scan-line-highlight-maybe-spam '((t (:background "magenta3")))
     "The face I use to highlight scan lines in MH-E."
     :group 'my-faces))
  ((eq 'x window-system)
-  (defface my-scan-line-highlight '((t (:background "yellow")))
+  (defface my-scan-line-highlight-important '((t (:background "yellow")))
     "The face I use to highlight scan lines in MH-E."
     :group 'my-faces)
   (defface my-scan-line-highlight-maybe-spam '((t (:background "cyan")))
     "The face I use to highlight scan lines in MH-E."
     :group 'my-faces))
  (t ;; -nw
-  (defface my-scan-line-highlight '((t (:background "brightyellow")))
+  (defface my-scan-line-highlight-important '((t (:background "brightyellow")))
     "The face I use to highlight scan lines in MH-E."
     :group 'my-faces)
   (defface my-scan-line-highlight-maybe-spam '((t (:background "brightcyan")))
@@ -257,14 +263,14 @@
   (condition-case ()
       (progn
 	(my-highlight-by-header-1
-	 folder range "highlight" 'my-scan-line-highlight)
+	 folder range "highlight"  'my-scan-line-highlight-important)
 	(my-highlight-by-header-1
 	 folder range "maybe-spam" 'my-scan-line-highlight-maybe-spam))
     (error nil)))
 
 (defun my-highlight-by-header-1 (folder range header face)
 ;;;;used to debug redundant calls to this function
-  ;;(message "my-highlight-by-header-1: folder=%s range=%s" folder range)
+  (message "my-highlight-by-header-1: folder=%s range=%s" folder range)
   (let ((output
 	 (if range
 	     (my-mh-exec-cmd "pick" folder range "--X-Layer-Filter" header)
@@ -306,7 +312,7 @@
 (defun my-highlight-by-sequence (folder range)
   (condition-case ()
       (my-highlight-by-sequence-1
-       folder range my-mh-important-msg-seq 'my-scan-line-highlight)
+       folder range my-mh-important-msg-seq 'my-scan-line-highlight-important)
     (error nil)))
 
 (defun my-highlight-by-sequence-1 (folder range sequence face)
