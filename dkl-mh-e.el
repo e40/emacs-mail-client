@@ -218,9 +218,19 @@
 ;;;;;;;;;
 
 ;; NOTE: use M-x list-colors-display to find suitable colors for the
-;; situation.
+;; situation.  Also, get ideas from here:
+;;    /usr/share/emacs/28.1/lisp/ansi-color.el
 
 (cond
+ ((and (boundp 'dkl:dark-mode)
+       dkl:dark-mode
+       (eq 'x window-system))
+  (defface my-scan-line-highlight '((t (:background "blue")))
+    "The face I use to highlight scan lines in MH-E."
+    :group 'my-faces)
+  (defface my-scan-line-highlight-maybe-spam '((t (:background "magenta3")))
+    "The face I use to highlight scan lines in MH-E."
+    :group 'my-faces))
  ((eq 'x window-system)
   (defface my-scan-line-highlight '((t (:background "yellow")))
     "The face I use to highlight scan lines in MH-E."
