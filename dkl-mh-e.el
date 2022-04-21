@@ -270,7 +270,7 @@
 
 (defun my-highlight-by-header-1 (folder range header face)
 ;;;;used to debug redundant calls to this function
-  (message "my-highlight-by-header-1: folder=%s range=%s" folder range)
+  ;;(message "my-highlight-by-header-1: folder=%s range=%s" folder range)
   (let ((output
 	 (if range
 	     (my-mh-exec-cmd "pick" folder range "--X-Layer-Filter" header)
