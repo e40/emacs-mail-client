@@ -8,7 +8,7 @@
 	  (< emacs-minor-version 1))
   (error "emacs-mail-client requires Emacs 27.1"))
 
-(push (format "%smh-e-27.1/" (file-name-directory load-file-name))
+(push (format "%smh-e-28.2/" (file-name-directory load-file-name))
       load-path)
 
 (require 'mh-e)

@@ -13,4 +13,7 @@ mkdir mh-e-${emacsversion}
 cp emacs.git/lisp/mh-e/*.el mh-e-${emacsversion}
 ```
 
-Then, fix load-path in dkl-mh-e.el to point to mh-e-${emacsversion}/.
+Then:
+
+* git add the new directory
+* fix load-path in dkl-mh-e.el to point to mh-e-${emacsversion}/
