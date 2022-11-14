@@ -178,7 +178,19 @@
       (while (search-forward (char-to-string 160) nil t)
 	(replace-match " " nil t))
       (when was-read-only (setq buffer-read-only t))
-      (setq truncate-lines t))))
+
+      ;;(setq truncate-lines t)
+      (setq truncate-lines nil)
+      (setq-default visual-fill-column-width 79)
+      (setq-default visual-line-fringe-indicators
+	'(left-curly-arrow right-curly-arrow))
+      (visual-line-mode 1)
+      ;; minor mode to make things look better
+      ;;    http://elpa.gnu.org/packages/adaptive-wrap.html
+      (when (fboundp 'adaptive-wrap-prefix-mode)
+	(adaptive-wrap-prefix-mode 1))
+
+      )))
 
 (add-hook 'mh-show-mode-hook 'my-mh-show-mode-hook)
 
