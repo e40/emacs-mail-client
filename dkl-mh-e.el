@@ -96,7 +96,7 @@
    ;; and case matter.
    '("Message-Id:")) 
  '(mh-invisible-header-fields ;; hide 
-   '("DKIM-Signature" "Comment" "DomainKey-" "X-" "In-" "Organization"
+   '("DKIM-Signature" "Comment" "DomainKey-" "X-" "UI-" "In-" "Organization"
      "References"
 ;;;; Don't hide this, SPR creation uses it in preference to the From,
 ;;;; which for some customers is really screwed up.  Monil looking at you.
