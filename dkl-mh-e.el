@@ -250,14 +250,14 @@
     "The face I use to highlight scan lines in MH-E."
     :group 'my-faces))
  ((eq 'x window-system)
-  (defface my-scan-line-highlight-important '((t (:background "yellow")))
+  (defface my-scan-line-highlight-important '((t (:background "magenta3")))
     "The face I use to highlight scan lines in MH-E."
     :group 'my-faces)
   (defface my-scan-line-highlight-maybe-spam '((t (:background "cyan")))
     "The face I use to highlight scan lines in MH-E."
     :group 'my-faces))
  (t ;; -nw
-  (defface my-scan-line-highlight-important '((t (:background "brightyellow")))
+  (defface my-scan-line-highlight-important '((t (:background "magenta3")))
     "The face I use to highlight scan lines in MH-E."
     :group 'my-faces)
   (defface my-scan-line-highlight-maybe-spam '((t (:background "brightcyan")))
