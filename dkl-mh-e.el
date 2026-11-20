@@ -1,3 +1,4 @@
+;; -*- lexical-binding: t; -*-
 
 ;; Add one of these to ~/.emacs
 ;;    See mh-identity-list setting below
