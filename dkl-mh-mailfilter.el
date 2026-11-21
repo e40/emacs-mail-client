@@ -1,3 +1,4 @@
+;; -*- lexical-binding: t; -*-
 
 (defun dkl:mh-rmail (&optional arg)
   (interactive "P")
@@ -156,20 +157,20 @@
      from-folder
      (mapcar #'(lambda (x) (format "%s" x)) msg-list))
     (goto-char (point-min))
-    (let ((conversation-data '())
+    (let ( ;;(conversation-data '())
           (case-fold-search t)
 	  (subjects '())
 	  (bh-ids '())
 	  (msgids '()))
-      (block nil
+      (cl-block nil
         (while (not (eobp))
-          (macrolet 
+          (cl-macrolet 
 	   ((save-val (thing place)
 		      `(progn
 			 (when (and ,thing (= 0 (length ,thing)))
 			   (setq ,thing nil))
 			 (when ,thing 
-			   (pushnew ,thing ,place :test 'equal)))))
+			   (cl-pushnew ,thing ,place :test 'equal)))))
 	   (let* ((index-line
 		   (prog1 (buffer-substring (point) (mh-line-end-position))
 		     (forward-line)))
@@ -183,7 +184,7 @@
 		  (msgid (prog1 (buffer-substring (point)
 						  (mh-line-end-position))
 			   (forward-line))))
-	     (unless (integerp index) (return)) ;Error message here
+	     (unless (integerp index) (cl-return)) ;Error message here
 
 	     (when subject
 	       ;; strip off the "Re: " prefix:
