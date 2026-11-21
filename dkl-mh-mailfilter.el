@@ -1,5 +1,8 @@
 ;; -*- lexical-binding: t; -*-
 
+(defvar dkl:mh-inbox-summary-snooze-toggle)
+(declare-function mh-snooze-summary "dkl-mh-e")
+
 (defun dkl:mh-rmail (&optional arg)
   (interactive "P")
   (cond (arg (mh-rmail))
